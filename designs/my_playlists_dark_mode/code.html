@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed-variant": "#454747",
+                      "on-tertiary-container": "#7b7d7d",
+                      "inverse-surface": "#e2e2e9",
+                      "on-background": "#e2e2e9",
+                      "on-tertiary-fixed": "#1a1c1c",
+                      "tertiary-fixed": "#e2e2e2",
+                      "on-secondary-fixed": "#370e00",
+                      "primary-container": "#0f1115",
+                      "tertiary-container": "#0f1112",
+                      "on-primary-fixed-variant": "#45474b",
+                      "surface-dim": "#111318",
+                      "on-secondary-container": "#531900",
+                      "primary": "#c6c6cc",
+                      "surface": "#111318",
+                      "surface-container-high": "#282a2f",
+                      "background": "#111318",
+                      "on-primary-fixed": "#1a1c20",
+                      "primary-fixed-dim": "#c6c6cc",
+                      "surface-bright": "#37393e",
+                      "surface-container-highest": "#33353a",
+                      "error": "#ffb4ab",
+                      "error-container": "#93000a",
+                      "on-tertiary": "#2f3131",
+                      "surface-tint": "#c6c6cc",
+                      "surface-container": "#1e2025",
+                      "on-surface": "#e2e2e9",
+                      "tertiary": "#c6c6c7",
+                      "on-secondary": "#5a1b00",
+                      "primary-fixed": "#e2e2e8",
+                      "secondary-fixed": "#ffdbce",
+                      "tertiary-fixed-dim": "#c6c6c7",
+                      "surface-container-low": "#191c20",
+                      "on-surface-variant": "#c6c6cb",
+                      "surface-container-lowest": "#0c0e13",
+                      "secondary-fixed-dim": "#ffb59a",
+                      "inverse-on-surface": "#2e3036",
+                      "on-error": "#690005",
+                      "on-primary-container": "#7b7c82",
+                      "on-primary": "#2f3035",
+                      "outline-variant": "#45474b",
+                      "on-secondary-fixed-variant": "#802a00",
+                      "inverse-primary": "#5d5e63",
+                      "secondary": "#ffb59a",
+                      "on-error-container": "#ffdad6",
+                      "outline": "#909095",
+                      "surface-variant": "#33353a",
+                      "secondary-container": "#ff5e07"
+              },
+              "borderRadius": {
+                      "DEFAULT": "1rem",
+                      "lg": "2rem",
+                      "xl": "3rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "md": "16px",
+                      "xl": "32px",
+                      "safe-area": "20px",
+                      "sm": "8px",
+                      "xs": "4px",
+                      "unit": "4px",
+                      "2xl": "48px",
+                      "lg": "24px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Manrope"],
+                      "body-lg": ["Manrope"],
+                      "display-mobile": ["Manrope"],
+                      "display": ["Manrope"],
+                      "body-md": ["Manrope"],
+                      "label-sm": ["JetBrains Mono"],
+                      "headline-md": ["Manrope"]
+              },
+              "fontSize": {
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "display-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "800"}],
+                      "display": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    }catch(_e){}</script><style>
+        .glass-panel {
+            background: rgba(30, 32, 37, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .playlist-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .playlist-card-hover:active {
+            transform: scale(0.98);
+        }
+    </style></head><body class="bg-surface-container-lowest text-on-surface font-body-lg">
+<!-- Top Navigation -->
+<header class="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl flex justify-between items-center px-safe-area py-md border-b border-white/5">
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200" data-icon="menu">menu</button>
+<h1 class="font-display-mobile text-display-mobile text-primary tracking-tight">Lyd</h1>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200" data-icon="search">search</button>
+</div>
+</header>
+<main class="pt-28 pb-32 px-safe-area bg-surface-container-lowest min-h-screen">
+<!-- Section Header -->
+<div class="mb-lg flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Playlists</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant/80 uppercase tracking-widest mt-xs">24 Curated Collections</p>
+</div>
+<button class="flex items-center gap-xs text-secondary font-bold active:scale-95 transition-transform bg-secondary-container/10 px-md py-sm rounded-full border border-secondary/20">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_circle">add_circle</span>
+<span class="font-label-sm text-label-sm">NEW</span>
+</button>
+</div>
+<!-- Playlist Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-lg">
+<!-- Playlist Card 1 (Collage) -->
+<div class="flex flex-col gap-sm playlist-card-hover group cursor-pointer">
+<div class="aspect-square rounded-lg overflow-hidden grid grid-cols-2 grid-rows-2 gap-px bg-surface-container shadow-2xl border border-white/5 ring-1 ring-white/5">
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDmryN-6JN81bffvsmHpiUoZuJPLydt8BDmJ2xLeK_xV-cIrY7rFJIXq0pCnVgFJ8KPNSzB1fWvRa7vw2nx5ec3iif-kp-EU70DdormMP7dmhab2LoAiMbZ80ZcNfw6Y9w5JnWUgb9j_bGiAX0pqzJJNBplhAmbQSsUMlOYponfJ8oMdul2SCDgXKyBE8v-36QAAbAkecTOqatevqW2xFhNpwaG9AwEmNCnoOfSggKN4GJc0JZhnUnJ5RkBaw5Tfcb40Bb2oWObWA')"></div>
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAJ8lVoUw5eydRMB0Z4MSKoH_BTw1fgOSCrEgKn8s3ruuqHP7erqnvl70eeBpbeamxQhkqTIWZSTGx0YRNpVg7PIYavRRP0ibBTMMSqqZ6tL_zVwIkHWzoBC-9FBMUKW8hg_3dqgb-eZOabsMk515Fr5vjejSVTPAzIBvcuNA8uUPjLsLJkMpDEAvd4zXvq2r6IX93vd_6PbxQ16PTf9FBXki3bjV9SgfUk-8KAIXCUlDT4J6IBKClfokjJeve2qeSVqUIPweRJ0g')"></div>
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCak4ovLZjdOOa5kRA7f2b5B4FATL_TnSqYh2cwhZ6Qnp_9ZVdzCATPYhIbcRWmexq7htLN8nEOmiSDV4KAbwDZB9hS22SLQdAcdRebpN7SoWMsCCCuToG-tUOXP_076BRJNEUYbOFdxvplRa-y8nkgWP-LjjXNPPqMmnRJ98FC0YV4f9jPWOOqlEB1glLXdpA_zzME6JE8GffWnb-fiFR7GzJHnJHv1pP0DF8LH8ozG8qqIM1NrylHpCJ2iXt6yYwGwkDR3svHMA')"></div>
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAwcBFYvxvJbGg8uQneKgiT3V7RWk5gWe11qC2AA15txqBIeh0nt4OILEAFV3AaJbwdiV5pHzvV4yHso2oFvJ0GsDQ2zh0bFq7aWNIPu4wo-EaRHc6zn3h7xkMralb0McivnASJZAAMy2AXWRLbI0zjMx_qFBYVHOd_deZj8_6VLS2QG-ZzaKtRHHyi6wUYyWegGm2VxpmC6Vj37mCZJIGBs92BylQ_SgD2uMZcSAkO7_tOkcnU43jB55fDjN4LpNwGAh-JIFmqPQ')"></div>
+</div>
+<div class="px-xs pt-xs">
+<h3 class="font-headline-md text-headline-md truncate text-on-surface group-hover:text-secondary transition-colors">Midnight Electronic</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant/90 mt-0.5">128 Tracks • 8h 42m</p>
+</div>
+</div>
+<!-- Playlist Card 2 (Single Art) -->
+<div class="flex flex-col gap-sm playlist-card-hover group cursor-pointer">
+<div class="aspect-square rounded-lg overflow-hidden bg-surface-container shadow-2xl border border-white/5 ring-1 ring-white/5">
+<div class="bg-cover bg-center w-full h-full transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAb-4WLem69zWnwJhF1XQWS657E8kDbKYv40MtLPxDHXGPYmKup4Kj7HVvpACrfyoZMTaWmVzhi9S71xjzch77Nh-QvFLVFDL09tBIvCjOI4O8JQJ1gKwmMnnDIITCGq5JIqfgGE9j6rr77zKjzi1KQqhSqFxUFbZHNSlstDHzX-QBSCQN3QWu6O5GiZM-Gil7gizg4sol-hIq-tHNjnUNq_UYXXEciPIJ3iuFIWldBYtdRmgotj7SiJb7d9a4rFHTWm6B7QQcIkw')"></div>
+</div>
+<div class="px-xs pt-xs">
+<h3 class="font-headline-md text-headline-md truncate text-on-surface group-hover:text-secondary transition-colors">Vocal Nuance</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant/90 mt-0.5">45 Tracks • 3h 15m</p>
+</div>
+</div>
+<!-- Playlist Card 3 (Collage) -->
+<div class="flex flex-col gap-sm playlist-card-hover group cursor-pointer">
+<div class="aspect-square rounded-lg overflow-hidden grid grid-cols-2 grid-rows-2 gap-px bg-surface-container shadow-2xl border border-white/5 ring-1 ring-white/5">
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAnEKHSH0flgReGeI_Xn-VJw6VsUTraycOfkaeLOCg8zUAZLBw5oqPCR5kUpZR73cjqosOWdlaT8DH_mjvPtR1zjzU7v7Nzljvjsq6KlzfMT6f7WKLA_LAwSuTjaDk-A5l_99FM_Hv8COiBed7UzFICYXE8dGnxYF8OL7259GNFmjw58_lquYjv3EXM2re19o_4zRalYVTyg-XDKm8fmv1Zmtk2cj89JaLMUF5akRceJav-ofkXZEAcxOzoZdJOMalTFZvF4mkNNA')"></div>
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC25y6fW9PlzI4agm92qtphcIbnFjPrJdCeb_isQwhyzf9DDYb56FqI3W43r2m1uxbXRt5gbHX69G60U48Z0bcSjL8F9sRhM5flSQW10NUHJga6mwAo000OhHo54_0YVTkhVoNQFaUeZUE96oQJlezEyN06ZAHeknM9b7gAteWdmYWZvDckQJ_Ell_t1ELtAjzbpxvM07iH6J8pdJdd-73lJwL6V5QvnwkLhed1gJRdxLn_L6LZfEj_WGpHVTNL4NmUiD5iS30PtQ')"></div>
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBeCIuS2DDsb7eKpeZMjVXEdhLqH5ctilRg2FlNWL8J0XA097PrPGfNBdYS-Nt8qXnBPB7IiEWcDV3MnTntK_mdeSZPyPonUJwmUdTUwu2F87JyJf4YCDTHrKP3fJfbetGLIlkzMpgzox0hmeaiNpqNr7fbq4W1G0e_vUqelO1JTkkBbhxI-aHuLJLWtEkZ5enAqgyAT7Xghy8dAWWk6zh0uRv3CIYLlqGYZDmGIBQaHI9LnPwHKhINQ910oMU9FHRtXz2mEyWTsQ')"></div>
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAwQgfho9whQKO8cjyUASYRJd5_nALjhOQXIx9Oy0YqF1iLBxXQcZL2qsejJitLQbPW9Tw-IY2rICpvvFlbj1PEn2II9mHbozIefPYCD8Hbhm_bE-4JPbtw38nDlGlsJconvox6A4fNdqlqh01oED-0zMP0p9E7KwOwnRsMdxKtrVZ3eGTVNJc-PNbpkHyVblJege46Sc7fv5f0AOB-duuCPy-UTouPbUFlhXmsBuLuEtbjl3Eee95afyG2VRdhHy0eDPwP2bXx7A')"></div>
+</div>
+<div class="px-xs pt-xs">
+<h3 class="font-headline-md text-headline-md truncate text-on-surface group-hover:text-secondary transition-colors">Acoustic Sessions</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant/90 mt-0.5">62 Tracks • 4h 10m</p>
+</div>
+</div>
+<!-- Playlist Card 4 (Single Art) -->
+<div class="flex flex-col gap-sm playlist-card-hover group cursor-pointer">
+<div class="aspect-square rounded-lg overflow-hidden bg-surface-container shadow-2xl border border-white/5 ring-1 ring-white/5">
+<div class="bg-cover bg-center w-full h-full transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDNB-GeTVJT_N7d-9vIX7FHz6GnSEBKxISKBVxgTC08LjEC1NhMBb8i_1QyeSEXlYh7f4JGseEms4H4_XmnxjvlEFeFpWKwri30Em51jshWnaQ6ZFE7ce2HZPRPh8d-lTWwG73T2J9SBD9GfI_Bc8-ALyj3xN30dSLzCNETEfDcJtP-4duy4ZoY_nTratHa8ov7UtxuFWOnUSEDuAdyHhNFqk-PTICPhvhuXBHwQ7rjNxEivZPAXZwYeWCPHf9aDwpYmMESoRJs1A')"></div>
+</div>
+<div class="px-xs pt-xs">
+<h3 class="font-headline-md text-headline-md truncate text-on-surface group-hover:text-secondary transition-colors">Low-Fi Focus</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant/90 mt-0.5">210 Tracks • 12h 00m</p>
+</div>
+</div>
+<!-- Playlist Card 5 (Collage) -->
+<div class="flex flex-col gap-sm playlist-card-hover group cursor-pointer">
+<div class="aspect-square rounded-lg overflow-hidden grid grid-cols-2 grid-rows-2 gap-px bg-surface-container shadow-2xl border border-white/5 ring-1 ring-white/5">
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpIeQ5dwTKlSoG3iVfu0XTRB8zYvmflOZ-ol0Wb2YzOcyvP2JDveztiLql34OKLiv0YDCXiUdZUY5i5QafoquVXOFzriDyaGGIa6yzzipCH8UXKmOZSvhw9UF44SEm6ligjtOWYAqbvt6ybFUOM-tOV38xGPR7kUBqLKN1jiPXvnZXtKMzThSG5Nc5srwsqpvow_wcOHJRQLBuuFn_75UEVycr6LRFMWBwCxYoVKK8Q9TH8V7gAkH5gC8EqGMt70L6ltnAWSQprw')"></div>
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBy9MGvN06--o0HyINRug9AmJ5lJZiPjWIjovcJ1FHtMjS0khKWCldGH-ld4czWtkBzhZ_sB_cia1BRp9FpupLnNykrASl_W2lEjy624vWyk-pZVZIa_eC8_KfVMXLXxO0gBnm24mb7Ce8rvYVxbnlLruLCE39zTDEy7anIGI4dGfC5R5N1UCI32R1D2iWNe1VqHDFdJgjfSzjXx022VqYN82Ghs_fsMzcTozky43DmU4h8J02332IibCrv-Mh8OGKD10rpv2EYqQ')"></div>
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBFcOgbkRUncvhQOWi1iUKzz2xiCKP48nl97hzze1PSeTECnwGdA_S3y8UImN9FYTQRJOTKkdGmT1ZpqAIaklgGDi8E6UzKaFK5a9nVve_Emz2yn9AW5pe5LUqvME2siMzasMmTaT_RDRI3NLdl62jN97YGEopHaL9Dx0Du5cojEoYOev53BPpSWn3xabVl4LoZTFimbnN8q_5JHP2f01DUg_B5-0HDnLHSY08ZDds-Nlv3Sg50QuZXiLPpv-WrvATPhPkatDuVTw')"></div>
+<div class="bg-cover bg-center transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3ohWIn9XWXLrozvL5u4tAHN24wkU9hHvKVHSlxyWX2jLVf4reMDAcoZxEE8HsYqCO9TWIKO2jqxamj0fTJD9uah5SBlgK4aC-lmi_dFqydA32hDQ1rp3rS3GeI7Bff8eekoYFUbl3asyGg6_wP1Yrx_l1zDaLSZDofrJGpahIX32_MHZhevDCKZqhfEAb9JsFCraAYPBoGG-z2Iqe-vr_ZV28eiMKKxShJPH05WInzcjWrhIdEUh0Io__ihDclbKHtpD0tA22yQ')"></div>
+</div>
+<div class="px-xs pt-xs">
+<h3 class="font-headline-md text-headline-md truncate text-on-surface group-hover:text-secondary transition-colors">Deep Immersion</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant/90 mt-0.5">32 Tracks • 2h 45m</p>
+</div>
+</div>
+<!-- Playlist Card 6 (Single Art) -->
+<div class="flex flex-col gap-sm playlist-card-hover group cursor-pointer">
+<div class="aspect-square rounded-lg overflow-hidden bg-surface-container shadow-2xl border border-white/5 ring-1 ring-white/5">
+<div class="bg-cover bg-center w-full h-full transition-transform duration-500 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB5qDtCxBv0zEQVb2WHg0D2Jp86984Ov1AJmox4lDIGzn0WDFxHbSyD19yXXui3-D9Rw1HBx4ZBVop3zJGQospGQ2_6JL_ck3AFg88dS_SJbYLvnzwFCUNvfTNpSixUOXUW9u3fPtpklX3yjHKqC3yjHKqC3xqHu4MkXV3wQ3ewFTNoODp_8jhygTdSs1OB3s-8_dNTDqmVonp7UcwMTuqvH6jONJVpkbyjyxdUmxHWgcfqG1GrCOowbfaLbG5bsEjoVVuBhFLb1c2p_z0Kg')"></div>
+</div>
+<div class="px-xs pt-xs">
+<h3 class="font-headline-md text-headline-md truncate text-on-surface group-hover:text-secondary transition-colors">Modern Classical</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant/90 mt-0.5">88 Tracks • 6h 30m</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Now Playing Mini Bar -->
+<div class="fixed bottom-24 left-safe-area right-safe-area z-40">
+<div class="glass-panel rounded-lg p-md flex items-center gap-md shadow-2xl overflow-hidden">
+<div class="w-12 h-12 rounded bg-surface-container-highest overflow-hidden flex-shrink-0 border border-white/10">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQp2wTx6GHttgL91xoUegoYIRBm17HCK-MneqAaL4-mBzyQlCZZVE4dsjko2dUYt5u_ej0MMeUmBdv3v68DBm6JeCRGxBzMMl34mQ90QXeVeRp3hP9cA9WaYS4RHUzBFAD9e1VEdwqRve1vmqpMUAKmpMUCYG0uhRX-c1xyHoPmFnTnOfb0Zd3_Yo4ee72lm8qnKZqRMo5Y0JH0B_fICLBnIo0XEAAT-otbLGqj4h_EiEdOJ4DTr_ASpvZkDMNMn5WCL60vJjOsw"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-xs">
+<span class="flex gap-px items-end h-3">
+<span class="w-0.5 bg-secondary animate-[bounce_1s_infinite]"></span>
+<span class="w-0.5 bg-secondary animate-[bounce_1.5s_infinite]"></span>
+<span class="w-0.5 bg-secondary animate-[bounce_1.2s_infinite]"></span>
+</span>
+<h4 class="font-body-lg text-on-surface truncate font-semibold">Silk Resonance</h4>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant/90 truncate">The Zenith Project</p>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface active:scale-90 transition-transform" data-icon="skip_previous">skip_previous</button>
+<button class="w-10 h-10 flex items-center justify-center bg-secondary text-on-secondary rounded-full active:scale-95 transition-transform shadow-lg shadow-secondary/20">
+<span class="material-symbols-outlined fill-icon" data-icon="pause">pause</span>
+</button>
+<button class="material-symbols-outlined text-on-surface active:scale-90 transition-transform" data-icon="skip_next">skip_next</button>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="absolute bottom-0 left-0 right-0 h-0.5 bg-white/5 overflow-hidden rounded-b-lg">
+<div class="h-full bg-secondary w-1/3 transition-all duration-1000 shadow-[0_0_8px_rgba(255,181,154,0.5)]"></div>
+</div>
+</div>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-2xl flex justify-around items-center px-md pb-safe h-20 border-t border-white/5 shadow-[0_-8px_32px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-0.5" data-icon="play_circle">play_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Listen</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-0.5" data-icon="library_music">library_music</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined fill-icon mb-0.5" data-icon="playlist_play">playlist_play</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Playlists</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/70 hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-0.5" data-icon="search">search</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Search</span>
+</a>
+</nav>
+<script>
+        // Simple mock for progress bar movement
+        let progress = 33;
+        const progressBar = document.querySelector('.bg-secondary.w-1\/3');
+        if (progressBar) {
+            setInterval(() => {
+                progress = (progress + 0.05) % 100;
+                progressBar.style.width = `${progress}%`;
+            }, 1000);
+        }
+    </script>
+</body></html>

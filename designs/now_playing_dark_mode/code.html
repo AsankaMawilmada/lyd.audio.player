@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#454747",
+                    "on-tertiary-container": "#7b7d7d",
+                    "inverse-surface": "#e2e2e9",
+                    "on-background": "#e2e2e9",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "tertiary-fixed": "#e2e2e2",
+                    "on-secondary-fixed": "#370e00",
+                    "primary-container": "#0f1115",
+                    "tertiary-container": "#0f1112",
+                    "on-primary-fixed-variant": "#45474b",
+                    "surface-dim": "#111318",
+                    "on-secondary-container": "#531900",
+                    "primary": "#c6c6cc",
+                    "surface": "#111318",
+                    "surface-container-high": "#282a2f",
+                    "background": "#111318",
+                    "on-primary-fixed": "#1a1c20",
+                    "primary-fixed-dim": "#c6c6cc",
+                    "surface-bright": "#37393e",
+                    "surface-container-highest": "#33353a",
+                    "error": "#ffb4ab",
+                    "error-container": "#93000a",
+                    "on-tertiary": "#2f3131",
+                    "surface-tint": "#c6c6cc",
+                    "surface-container": "#1e2025",
+                    "on-surface": "#e2e2e9",
+                    "tertiary": "#c6c6c7",
+                    "on-secondary": "#5a1b00",
+                    "primary-fixed": "#e2e2e8",
+                    "secondary-fixed": "#ffdbce",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "surface-container-low": "#191c20",
+                    "on-surface-variant": "#c6c6cb",
+                    "surface-container-lowest": "#0c0e13",
+                    "secondary-fixed-dim": "#ffb59a",
+                    "inverse-on-surface": "#2e3036",
+                    "on-error": "#690005",
+                    "on-primary-container": "#7b7c82",
+                    "on-primary": "#2f3035",
+                    "outline-variant": "#45474b",
+                    "on-secondary-fixed-variant": "#802a00",
+                    "inverse-primary": "#5d5e63",
+                    "secondary": "#ffb59a",
+                    "on-error-container": "#ffdad6",
+                    "outline": "#909095",
+                    "surface-variant": "#33353a",
+                    "secondary-container": "#ff5e07"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "xl": "32px",
+                    "safe-area": "20px",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "unit": "4px",
+                    "2xl": "48px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Manrope"],
+                    "body-lg": ["Manrope"],
+                    "display-mobile": ["Manrope"],
+                    "display": ["Manrope"],
+                    "body-md": ["Manrope"],
+                    "label-sm": ["JetBrains Mono"],
+                    "headline-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "800"}],
+                    "display": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    }catch(_e){}</script><meta charset="utf-8"/></head><body class="font-body-md flex flex-col min-h-screen bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-safe-area py-md bg-background/80 backdrop-blur-xl">
+<button class="active:scale-95 duration-200 hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-on-surface" data-icon="expand_more" data-original-icon="expand_more">expand_more</span>
+</button>
+<div class="flex flex-col items-center">
+<span class="font-label-sm text-[10px] text-secondary tracking-widest uppercase mb-xs">Lyd</span>
+<h1 class="font-headline-md text-headline-md text-on-surface text-center">Now Playing</h1>
+</div>
+<button class="active:scale-95 duration-200 hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-on-surface" data-icon="more_vert">more_vert</span>
+</button>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center px-safe-area pt-2xl pb-xl">
+<!-- Album Art Canvas -->
+<div class="relative w-full aspect-square max-w-[400px] mb-2xl group">
+<div class="w-full h-full rounded-lg overflow-hidden shadow-2xl transition-transform duration-500 group-hover:scale-[1.02] border border-white/5">
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-fidelity close-up of a vintage vinyl record spinning on a high-end minimalist turntable. The lighting is moody and low-key, with soft orange and blue highlights reflecting off the glossy black surface. The overall aesthetic is Quiet Premium, featuring deep charcoal tones, sharp focus on the needle, and a blurred background of a modern audiophile's listening room." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXv499ZqsrGCUV3GwmQVy7YvdBH1s9SOLBA4vxRX7tb53lGeeLLd-WLrF8EVIX7KNVc6DG3WPYBKHswYg5axTPWupfoUatNGyR2--xNs7tTwXX85sEM4Y6qaOeDdwXWEsDvQ-glnyf4n9zchyn92mTOufYum1UBKAZbzcgm-sZO5N8iGV6Rogt_P23WVfpVkyYzRg0wHykq3CsDLfgPlMThyE_sc984i7ULRuAkKesmUDM3WE5qz4yPOUKIB9q1oMVFQlA-cYffg"/>
+</div>
+<!-- High-Res Badge -->
+<div class="absolute top-md right-md px-sm py-xs bg-surface-dim/60 backdrop-blur-md rounded-full border border-white/10">
+<span class="font-label-sm text-label-sm text-secondary">HI-RES</span>
+</div>
+</div>
+<!-- Track Info -->
+<div class="w-full max-w-[400px] text-left mb-xl px-xs">
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-display-mobile text-display-mobile text-on-surface tracking-tight mb-xs">Midnight Reflections</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant/70">Aether &amp; The Echo</p>
+</div>
+<button class="active:scale-90 duration-200 text-on-surface-variant" id="favorite-btn">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+</div>
+<!-- Sleek Progress-->
+<div class="w-full max-w-[400px] mb-xl px-xs">
+<div class="progress-container relative h-1 w-full bg-surface-container-highest/30 rounded-full cursor-pointer group">
+<div class="absolute top-0 left-0 h-full bg-secondary rounded-full" style="width: 35%"></div>
+<div class="progress-thumb absolute top-1/2 -translate-y-1/2 left-[35%] w-3 h-3 bg-on-surface rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="flex justify-between mt-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant/60">1:42</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/60">4:15</span>
+</div>
+</div>
+<!-- Large Playback Controls -->
+<div class="w-full max-w-[400px] flex items-center justify-between px-md mb-2xl">
+<button class="text-on-surface-variant active:scale-90 transition-transform hover:text-on-surface">
+<span class="material-symbols-outlined text-[28px]" data-icon="shuffle">shuffle</span>
+</button>
+<div class="flex items-center gap-xl">
+<button class="text-on-surface active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[40px]" data-icon="skip_previous">skip_previous</span>
+</button>
+<button class="w-20 h-20 flex items-center justify-center bg-secondary-container text-on-secondary-container rounded-full shadow-2xl active:scale-95 transition-transform hover:brightness-110">
+<span class="material-symbols-outlined text-[48px]" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<button class="text-on-surface active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[40px]" data-icon="skip_next">skip_next</span>
+</button>
+</div>
+<button class="text-secondary active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[28px]" data-icon="repeat">repeat</span>
+</button>
+</div>
+<!-- Additional Actions -->
+<div class="w-full max-w-[400px] flex justify-around items-center pt-md border-t border-white/5">
+<button class="flex flex-col items-center gap-xs text-on-surface-variant/60 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="devices">devices</span>
+<span class="font-label-sm text-label-sm">Kitchen Speakers</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-on-surface-variant/60 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="playlist_play">playlist_play</span>
+<span class="font-label-sm text-label-sm">Up Next</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-on-surface-variant/60 hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+<span class="font-label-sm text-label-sm">Share</span>
+</button>
+</div>
+</main>
+<!-- Bottom Navigation Shell (Suppressed as per "Task-Focused" rule for Now Playing sub-page) -->
+<script>
+        // Micro-interactions
+        const favoriteBtn = document.getElementById('favorite-btn');
+        favoriteBtn.addEventListener('click', () => {
+            const icon = favoriteBtn.querySelector('span');
+            const isFilled = icon.style.fontVariationSettings.includes("'FILL' 1");
+            icon.style.fontVariationSettings = isFilled ? "'FILL' 0" : "'FILL' 1";
+            favoriteBtn.classList.toggle('text-secondary');
+        });
+
+        // Simple Progress Simulation
+        let progress = 35;
+        const progressBar = document.querySelector('.bg-secondary');
+        const thumb = document.querySelector('.progress-thumb');
+        
+        setInterval(() => {
+            if (progress < 100) {
+                progress += 0.05;
+                progressBar.style.width = `${progress}%`;
+                thumb.style.left = `${progress}%`;
+            }
+        }, 1000);
+    </script>
+</body></html>

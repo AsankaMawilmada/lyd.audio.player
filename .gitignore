@@ -1,0 +1,19 @@
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+
+# Keystore secrets — never commit signing credentials
+*.jks
+*.keystore
+keystore.properties
+
+# Room schemas are fine to keep, but generated build artifacts are not
+app/build/

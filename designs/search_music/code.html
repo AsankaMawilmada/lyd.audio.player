@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Pulse Audio - Search</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#454747",
+                    "on-tertiary-container": "#7b7d7d",
+                    "inverse-surface": "#e2e2e9",
+                    "on-background": "#e2e2e9",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "tertiary-fixed": "#e2e2e2",
+                    "on-secondary-fixed": "#370e00",
+                    "primary-container": "#0f1115",
+                    "tertiary-container": "#0f1112",
+                    "on-primary-fixed-variant": "#45474b",
+                    "surface-dim": "#111318",
+                    "on-secondary-container": "#531900",
+                    "primary": "#c6c6cc",
+                    "surface": "#111318",
+                    "surface-container-high": "#282a2f",
+                    "background": "#111318",
+                    "on-primary-fixed": "#1a1c20",
+                    "primary-fixed-dim": "#c6c6cc",
+                    "surface-bright": "#37393e",
+                    "surface-container-highest": "#33353a",
+                    "error": "#ffb4ab",
+                    "error-container": "#93000a",
+                    "on-tertiary": "#2f3131",
+                    "surface-tint": "#c6c6cc",
+                    "surface-container": "#1e2025",
+                    "on-surface": "#e2e2e9",
+                    "tertiary": "#c6c6c7",
+                    "on-secondary": "#5a1b00",
+                    "primary-fixed": "#e2e2e8",
+                    "secondary-fixed": "#ffdbce",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "surface-container-low": "#191c20",
+                    "on-surface-variant": "#c6c6cb",
+                    "surface-container-lowest": "#0c0e13",
+                    "secondary-fixed-dim": "#ffb59a",
+                    "inverse-on-surface": "#2e3036",
+                    "on-error": "#690005",
+                    "on-primary-container": "#7b7c82",
+                    "on-primary": "#2f3035",
+                    "outline-variant": "#45474b",
+                    "on-secondary-fixed-variant": "#802a00",
+                    "inverse-primary": "#5d5e63",
+                    "secondary": "#ffb59a",
+                    "on-error-container": "#ffdad6",
+                    "outline": "#909095",
+                    "surface-variant": "#33353a",
+                    "secondary-container": "#ff5e07"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "xl": "32px",
+                    "safe-area": "20px",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "unit": "4px",
+                    "2xl": "48px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Manrope"],
+                    "body-lg": ["Manrope"],
+                    "display-mobile": ["Manrope"],
+                    "display": ["Manrope"],
+                    "body-md": ["Manrope"],
+                    "label-sm": ["JetBrains Mono"],
+                    "headline-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "800"}],
+                    "display": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #111318;
+            color: #e2e2e9;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            background: rgba(30, 32, 37, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .search-bar-focus:focus-within {
+            border-color: #ffb59a;
+            box-shadow: 0 0 0 4px rgba(255, 181, 154, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md">
+<!-- Top AppBar (From JSON) -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl flex justify-between items-center px-safe-area py-md w-full">
+<div class="flex items-center gap-md">
+<button class="active:scale-95 duration-200 hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+</button>
+<h1 class="font-display-mobile text-display-mobile text-primary tracking-tight">Pulse Audio</h1>
+</div>
+<div class="flex items-center">
+<button class="active:scale-95 duration-200 hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-primary" data-icon="search">search</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-safe-area min-h-screen">
+<!-- Search Section -->
+<section class="mb-xl">
+<div class="relative group search-bar-focus transition-all duration-300 flex items-center bg-surface-container rounded-full px-lg py-md border border-transparent">
+<span class="material-symbols-outlined text-on-surface-variant mr-md" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface w-full font-body-lg text-body-lg placeholder-on-surface-variant/40 outline-none" placeholder="Synthwave" type="text" value="Synthwave"/>
+<button class="ml-md text-on-surface-variant/60 hover:text-on-surface">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+</section>
+<!-- Trending Genres (Chips Pattern) -->
+<section class="mb-2xl">
+<h2 class="font-headline-md text-headline-md-mobile mb-md text-on-surface">Trending Genres</h2>
+<div class="flex flex-wrap gap-sm">
+<div class="glass-effect rounded-full px-lg py-sm font-label-sm text-label-sm text-secondary hover:bg-secondary/10 transition-colors cursor-pointer active:scale-95 duration-150">Electronic</div>
+<div class="glass-effect rounded-full px-lg py-sm font-label-sm text-label-sm text-secondary hover:bg-secondary/10 transition-colors cursor-pointer active:scale-95 duration-150">Ambient</div>
+<div class="glass-effect rounded-full px-lg py-sm font-label-sm text-label-sm text-secondary hover:bg-secondary/10 transition-colors cursor-pointer active:scale-95 duration-150">Dark Techno</div>
+<div class="glass-effect rounded-full px-lg py-sm font-label-sm text-label-sm text-secondary hover:bg-secondary/10 transition-colors cursor-pointer active:scale-95 duration-150">Lo-Fi</div>
+<div class="glass-effect rounded-full px-lg py-sm font-label-sm text-label-sm text-secondary hover:bg-secondary/10 transition-colors cursor-pointer active:scale-95 duration-150">Chillwave</div>
+</div>
+</section>
+<!-- Top Results (Asymmetric List Pattern) -->
+<section>
+<div class="flex justify-between items-end mb-md">
+<h2 class="font-headline-md text-headline-md-mobile text-on-surface">Top Results for "Synthwave"</h2>
+<span class="font-label-sm text-label-sm text-secondary">See all</span>
+</div>
+<div class="grid grid-cols-1 gap-md">
+<!-- Result Item 1: Featured Result -->
+<div class="group relative bg-surface-container rounded-lg overflow-hidden flex flex-col md:flex-row transition-transform duration-300 hover:scale-[1.01]">
+<div class="w-full md:w-48 h-48 flex-shrink-0 relative">
+<img class="w-full h-full object-cover" data-alt="A cinematic overhead shot of a futuristic neon-lit city street at night, reflected in a wet asphalt surface. The color palette is dominated by deep cyans and hot magenta pinks, creating a classic high-fidelity synthwave aesthetic. The lighting is moody and atmospheric, with soft glows emanating from holographic advertisements in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCx7n2I8Orr0BTcGGurWT6Jpg-9w7q9A30TCfkQJRA8whoAxtf_DB9ZBCfpFNV1QRXDT6ODSR1tPk3TdxJVzTKM8p2eathz9ShHgBHWxJvYGGF00nM5McGLhsb8XnvaiU3ZbERDdzZc2Q41NyVTcip1fFpU4ZoTUDRScY0rmstFJRtczTZXuFqUV29bUYlTeDyhM1l4XR0xYrETHjdhS5bf-SHI5svHCdpWru57trkgeEKI7LK0YP4nPal2VE6gx9-v-cXTDQ9DYQ"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+</div>
+<div class="p-lg flex flex-col justify-center flex-grow">
+<div class="flex items-center gap-xs mb-xs">
+<span class="bg-secondary/20 text-secondary px-sm py-[2px] rounded-full font-label-sm text-[10px] tracking-widest">ARTIST</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg-mobile text-on-surface mb-xs">Neon Architect</h3>
+<p class="text-on-surface-variant font-body-md text-body-md mb-md">2.4M Monthly Listeners</p>
+<div class="flex items-center gap-md">
+<button class="bg-secondary text-on-secondary px-lg py-sm rounded-full font-label-sm text-label-sm flex items-center gap-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined !text-[18px]" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                Play
+                            </button>
+<button class="text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Regular Result Items -->
+<div class="space-y-sm">
+<!-- Track 1 -->
+<div class="flex items-center p-md rounded-lg hover:bg-surface-container-high transition-colors group">
+<div class="w-12 h-12 rounded-md overflow-hidden mr-md">
+<img class="w-full h-full object-cover" data-alt="Close-up of a vintage analog synthesizer's glowing knobs and sliders in a dimly lit studio. A soft purple and orange light spills across the hardware, highlighting the metallic textures and retro design. The focus is sharp on the illuminated levels, suggesting a professional music production environment with a warm, nostalgic feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAroFdlfT60vFZDAHoKnFoRHhZLv5mq4GnOGPQyx6K1CA4L_iCyJrKna0wwS4MqYY6x_iJTTsdjzQnMdW4brPFbxxmNOVQSZeu0wU8tBYX2-E9Key4glK4VFVvBOKQ0ghsdqhjxxi9a5kxiTgDh7OGgR8O9Q-k-R0bjrHvQeAMY6HYn95v763yZHnW2SHdJ_xm7QmmuYtAjnc25Y0Mo3C9g8azA-JpZC2J4l3VpjRCdiU2f4ujAaCBmUPdtE1Vt3MnF5QoJhPAqpQ"/>
+</div>
+<div class="flex-grow">
+<h4 class="text-on-surface font-headline-md text-headline-md-mobile !text-[16px]">Midnight Horizon</h4>
+<p class="text-on-surface-variant/60 text-body-md">Lazerhawk • 4:32</p>
+</div>
+<div class="flex items-center gap-md opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="playlist_add">playlist_add</span>
+</button>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+<!-- Track 2 -->
+<div class="flex items-center p-md rounded-lg hover:bg-surface-container-high transition-colors group">
+<div class="w-12 h-12 rounded-md overflow-hidden mr-md relative">
+<img class="w-full h-full object-cover" data-alt="A stylized 3D render of a sun setting over a digital grid ocean, a quintessential vaporwave and synthwave motif. The sun is a large, striped orange circle against a dark violet sky. The grid lines of the ocean surface recede into infinity, glowing with a soft neon cyan light. The overall mood is peaceful, digital, and evocative of 1980s retro-futurism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUHHsOX7zAK8-plEH0fBjazIznUWMuhp8gbqJvmhE9EYGEXQiVB8SGGmmJR_oScc1a7zF5twP7EyE7HEycD1RYIsKW2-bZIzPqAE2JwyjC-GyeVN0RXk-YbxSLRrlRimPoHoubHmtqfbfycYOBXAlBNxAF97DX06RwWUHfPao9ccNwaAAgtJpiWvTDtpyvgxPTAXJfUpVXQK-4leRhjH9o5NDGtzVhOlgOyw96-8sfY0NVqD8-GVQQMY9pBu7GkPj0PrVWyEayWA"/>
+<!-- Visualizer Indicator for "playing" state simulation -->
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+<div class="flex gap-[2px] h-3 items-end">
+<div class="w-1 bg-secondary animate-[bounce_1s_infinite]"></div>
+<div class="w-1 bg-secondary animate-[bounce_1.4s_infinite]"></div>
+<div class="w-1 bg-secondary animate-[bounce_1.2s_infinite]"></div>
+</div>
+</div>
+</div>
+<div class="flex-grow">
+<h4 class="text-secondary font-headline-md text-headline-md-mobile !text-[16px]">Turbo Killer</h4>
+<p class="text-on-surface-variant/60 text-body-md">Carpenter Brut • 3:28</p>
+</div>
+<div class="flex items-center gap-md group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+<!-- Track 3 -->
+<div class="flex items-center p-md rounded-lg hover:bg-surface-container-high transition-colors group">
+<div class="w-12 h-12 rounded-md overflow-hidden mr-md">
+<img class="w-full h-full object-cover" data-alt="An artistic photograph of a pair of high-end studio headphones resting on a dark, reflective surface. Small droplets of condensation are visible, catching the faint glint of a blue LED light nearby. The background is a deep, out-of-focus charcoal grey, emphasizing the premium build and sleek lines of the audio equipment. The atmosphere is one of focused, high-fidelity listening." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdUU6odvALrYsHbc9rAIGRAxP-6SU1Xcpu4t3bSLu1m2HEZkPpm8mRIDV3DN8pO6YaHe7Hk06HDr88-h7VYYSNmIIeDU93GOz9mAbKX6V3UqzVr1mPD_ggF1aocnXBcbHepgDMw5gRX1uVnZCxd012HZzL9xr7_0f6lLar6mdMxH5EA_lJ1vnM7aPdHDcCtfGs0q0TAHBH-He7ZLYKwTHWQIr8cPmRbD-JjpTXJJyhKU-o6aHBMoDSrTFa2V7zY-ov-NPHWJxdKA"/>
+</div>
+<div class="flex-grow">
+<h4 class="text-on-surface font-headline-md text-headline-md-mobile !text-[16px]">Nightcall</h4>
+<p class="text-on-surface-variant/60 text-body-md">Kavinsky • 4:18</p>
+</div>
+<div class="flex items-center gap-md opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-secondary">
+<span class="material-symbols-outlined" data-icon="playlist_add">playlist_add</span>
+</button>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (From JSON) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-md pb-safe-area h-20 bg-surface-container/40 backdrop-blur-xl shadow-2xl rounded-t-lg">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+<span class="font-label-sm text-label-sm">Listen</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="library_music">library_music</span>
+<span class="font-label-sm text-label-sm">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-on-surface transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="playlist_play">playlist_play</span>
+<span class="font-label-sm text-label-sm">Playlists</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary font-bold active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="search" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</a>
+</nav>
+<!-- Floating Action Button (Only for specific primary actions, but suppressed per rule on Search screen) -->
+<script>
+        // Simple micro-interaction for chips
+        document.querySelectorAll('.cursor-pointer').forEach(chip => {
+            chip.addEventListener('click', function() {
+                const searchInput = document.querySelector('input[type="text"]');
+                searchInput.value = this.innerText;
+                // Visual feedback
+                this.classList.add('bg-secondary', 'text-on-secondary');
+                setTimeout(() => {
+                    this.classList.remove('bg-secondary', 'text-on-secondary');
+                }, 300);
+            });
+        });
+    </script>
+</body></html>
