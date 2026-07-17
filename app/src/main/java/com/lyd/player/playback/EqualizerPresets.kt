@@ -1,48 +1,39 @@
 package com.lyd.player.playback
 
 const val CUSTOM_PRESET_NAME = "Custom"
-const val NORMAL_PRESET_NAME = "Normal"
+const val BALANCED_PRESET_NAME = "Balanced"
 
 /**
  * Each preset is a smooth curve of relative gain (-1f full cut .. 1f full boost) sampled at
- * normalized frequency positions from 0 (lowest band) to 1 (highest band). Applying a preset
- * interpolates this curve across however many bands the device equalizer actually reports,
- * then scales by that band's own min/max milliBel range — so it works identically whether the
- * device exposes 5 bands or 10.
+ * normalized frequency positions from 0 (lowest band, 63Hz) to 1 (highest band, 16kHz).
+ * Applying a preset interpolates this curve across however many virtual bands are shown,
+ * then scales by that band's own min/max milliBel range.
  */
 private data class CurvePoint(val position: Float, val relativeGain: Float)
 
 private val PRESET_CURVES: Map<String, List<CurvePoint>> = mapOf(
-    NORMAL_PRESET_NAME to listOf(
+    BALANCED_PRESET_NAME to listOf(
         CurvePoint(0f, 0f), CurvePoint(1f, 0f),
     ),
-    "Pop" to listOf(
-        CurvePoint(0f, -0.2f), CurvePoint(0.25f, 0.1f), CurvePoint(0.5f, 0.3f),
-        CurvePoint(0.75f, 0.15f), CurvePoint(1f, -0.1f),
+    "Bass Boost" to listOf(
+        CurvePoint(0f, 1f), CurvePoint(0.125f, 0.85f), CurvePoint(0.25f, 0.55f),
+        CurvePoint(0.375f, 0.2f), CurvePoint(0.5f, 0f), CurvePoint(1f, 0f),
     ),
-    "Rock" to listOf(
-        CurvePoint(0f, 0.5f), CurvePoint(0.25f, 0.25f), CurvePoint(0.5f, -0.15f),
-        CurvePoint(0.75f, 0.2f), CurvePoint(1f, 0.4f),
+    "Smooth" to listOf(
+        CurvePoint(0f, 0.15f), CurvePoint(0.25f, 0.2f), CurvePoint(0.5f, 0f),
+        CurvePoint(0.625f, -0.15f), CurvePoint(0.75f, -0.2f), CurvePoint(0.875f, -0.1f), CurvePoint(1f, -0.05f),
     ),
-    "Jazz" to listOf(
-        CurvePoint(0f, 0.3f), CurvePoint(0.25f, 0.2f), CurvePoint(0.5f, 0.05f),
-        CurvePoint(0.75f, 0.2f), CurvePoint(1f, 0.3f),
+    "Dynamic" to listOf(
+        CurvePoint(0f, 0.6f), CurvePoint(0.125f, 0.45f), CurvePoint(0.25f, 0.15f),
+        CurvePoint(0.5f, -0.25f), CurvePoint(0.75f, 0.2f), CurvePoint(0.875f, 0.45f), CurvePoint(1f, 0.55f),
     ),
-    "Classical" to listOf(
-        CurvePoint(0f, 0.15f), CurvePoint(0.25f, 0.05f), CurvePoint(0.5f, 0f),
-        CurvePoint(0.75f, 0.1f), CurvePoint(1f, 0.3f),
+    "Clear" to listOf(
+        CurvePoint(0f, 0f), CurvePoint(0.25f, -0.15f), CurvePoint(0.375f, -0.2f), CurvePoint(0.5f, 0f),
+        CurvePoint(0.625f, 0.35f), CurvePoint(0.75f, 0.5f), CurvePoint(0.875f, 0.4f), CurvePoint(1f, 0.2f),
     ),
-    "Dance" to listOf(
-        CurvePoint(0f, 0.6f), CurvePoint(0.25f, 0.3f), CurvePoint(0.5f, -0.2f),
-        CurvePoint(0.75f, 0.15f), CurvePoint(1f, 0.2f),
-    ),
-    "Bass boost" to listOf(
-        CurvePoint(0f, 1f), CurvePoint(0.25f, 0.5f), CurvePoint(0.5f, 0f),
-        CurvePoint(0.75f, 0f), CurvePoint(1f, 0f),
-    ),
-    "Treble boost" to listOf(
-        CurvePoint(0f, 0f), CurvePoint(0.25f, 0f), CurvePoint(0.5f, 0f),
-        CurvePoint(0.75f, 0.5f), CurvePoint(1f, 1f),
+    "Treble Boost" to listOf(
+        CurvePoint(0f, 0f), CurvePoint(0.5f, 0f), CurvePoint(0.625f, 0.2f),
+        CurvePoint(0.75f, 0.6f), CurvePoint(0.875f, 0.9f), CurvePoint(1f, 1f),
     ),
 )
 
@@ -76,7 +67,7 @@ fun computePresetLevels(
     minMilliBel: (bandIndex: Int) -> Int,
     maxMilliBel: (bandIndex: Int) -> Int,
 ): List<Int> {
-    val curve = PRESET_CURVES[presetName] ?: PRESET_CURVES.getValue(NORMAL_PRESET_NAME)
+    val curve = PRESET_CURVES[presetName] ?: PRESET_CURVES.getValue(BALANCED_PRESET_NAME)
     return (0 until bandCount).map { index ->
         val position = if (bandCount <= 1) 0f else index / (bandCount - 1).toFloat()
         val relativeGain = sampleCurve(curve, position) * PRESET_INTENSITY

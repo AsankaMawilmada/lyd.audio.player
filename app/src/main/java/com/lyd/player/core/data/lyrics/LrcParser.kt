@@ -39,3 +39,15 @@ object LrcParser {
         return result
     }
 }
+
+/**
+ * Many taggers embed full LRC text (with `[mm:ss.xx]` tags) inside a plain-text lyrics field
+ * (ID3 USLT, Vorbis LYRICS comment, MP4 ©lyr), rather than using a dedicated synced-lyrics
+ * structure. Detect that case here so embedded lyrics still get sync highlighting when present.
+ */
+fun textToLyricsResult(text: String): LyricsResult {
+    val trimmed = text.trim()
+    if (trimmed.isEmpty()) return LyricsResult.NotFound
+    val synced = LrcParser.parse(trimmed)
+    return if (synced.isNotEmpty()) LyricsResult.Synced(synced) else LyricsResult.Plain(trimmed)
+}

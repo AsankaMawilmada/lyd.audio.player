@@ -91,16 +91,23 @@ class PlayerController @Inject constructor(
 
     private val playerListener = object : Player.Listener {
         override fun onEvents(player: Player, events: Player.Events) {
-            syncStateFromController()
+            // Rebuilding the queue walks every item over the MediaController's binder connection —
+            // only do that when the timeline actually changed, not on every play/pause/position event.
+            val rebuildQueue = events.containsAny(Player.EVENT_TIMELINE_CHANGED, Player.EVENT_MEDIA_ITEM_TRANSITION)
+            syncStateFromController(rebuildQueue)
         }
     }
 
-    private fun syncStateFromController() {
+    private fun syncStateFromController(rebuildQueue: Boolean = true) {
         val c = controller ?: return
-        val queue = (0 until c.mediaItemCount).map { c.getMediaItemAt(it).toQueueItem() }
         val currentIndex = c.currentMediaItemIndex
-        _uiState.update {
-            it.copy(
+        _uiState.update { state ->
+            val queue = if (rebuildQueue) {
+                (0 until c.mediaItemCount).map { c.getMediaItemAt(it).toQueueItem() }
+            } else {
+                state.queue
+            }
+            state.copy(
                 currentItem = queue.getOrNull(currentIndex),
                 queue = queue,
                 currentIndex = currentIndex,

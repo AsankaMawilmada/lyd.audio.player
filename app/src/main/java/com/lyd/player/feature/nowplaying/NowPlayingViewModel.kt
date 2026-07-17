@@ -55,10 +55,7 @@ class NowPlayingViewModel @Inject constructor(
 
     private suspend fun fetchLyrics(path: String) {
         _lyricsState.value = LyricsUiState.Loading
-        val item = playbackState.value.currentItem ?: return
-        if (item.path != path) return
-        val durationSeconds = (item.durationMs / 1000L).toInt()
-        val result = lyricsRepository.fetch(item.title, item.artist, item.album, durationSeconds)
+        val result = lyricsRepository.fetch(path)
         if (playbackState.value.currentItem?.path != path) return // track changed while fetching
         _lyricsState.value = when (result) {
             is LyricsResult.Synced -> LyricsUiState.Synced(result.lines)

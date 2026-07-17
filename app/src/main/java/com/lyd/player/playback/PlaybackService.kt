@@ -35,7 +35,10 @@ class PlaybackService : MediaSessionService() {
         player = ExoPlayer.Builder(this).build()
         player.addListener(playerListener)
         mediaSession = MediaSession.Builder(this, player).build()
-        equalizerController.attach(player.audioSessionId)
+        // NOT player.audioSessionId here: right after build() the audio sink hasn't been
+        // configured with a real format yet, so this is still 0 (unset) and attaching the
+        // Equalizer to it is a no-op on most devices. The real session id only becomes
+        // available once playback actually starts, via onAudioSessionIdChanged below.
     }
 
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? = mediaSession
@@ -56,6 +59,14 @@ class PlaybackService : MediaSessionService() {
             val path = mediaItem?.mediaId ?: return
             serviceScope.launch { recentPlaysRepository.record(path) }
             sleepTimerController.onTrackChanged()
+        }
+
+        // Fires once the audio sink assigns its first real session id, and again if the device
+        // ever has to allocate a new one (e.g. a track with a different sample rate/channel
+        // config forces the AudioTrack to be recreated) — re-attaching keeps the Equalizer
+        // pointed at whatever session is actually producing sound.
+        override fun onAudioSessionIdChanged(audioSessionId: Int) {
+            equalizerController.attach(audioSessionId)
         }
     }
 }

@@ -20,22 +20,23 @@ data class EqualizerUiState(
     val enabled: Boolean = false,
     val bands: List<EqBand> = emptyList(),
     val presets: List<String> = EQUALIZER_PRESET_NAMES,
-    val activePreset: String = NORMAL_PRESET_NAME,
+    val activePreset: String = BALANCED_PRESET_NAME,
 )
 
 /**
  * Wraps the device-native [Equalizer] audio effect attached to the current playback session.
  * Band count/frequencies/range all come from whatever the device reports — nothing here is
- * hardcoded to a specific layout. Settings persist for the lifetime of the app process (they
- * are re-applied on every [attach], e.g. after the playback service is recreated) but are not
- * required to survive a full process death.
+ * hardcoded to a specific layout, so every band the UI shows is a real, independent one (no two
+ * sliders ever share the same underlying gain). Settings persist for the lifetime of the app
+ * process (they are re-applied on every [attach], e.g. after the playback service is recreated)
+ * but are not required to survive a full process death.
  */
 @Singleton
 class EqualizerController @Inject constructor() {
 
     private var equalizer: Equalizer? = null
     private var pendingEnabled = true
-    private var pendingPreset = NORMAL_PRESET_NAME
+    private var pendingPreset = BALANCED_PRESET_NAME
     private var pendingCustomLevels: List<Int>? = null
 
     private val _state = MutableStateFlow(EqualizerUiState())
