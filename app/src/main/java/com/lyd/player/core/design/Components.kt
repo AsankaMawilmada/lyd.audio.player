@@ -21,8 +21,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -52,6 +55,39 @@ fun GlassTopBar(
             text = title,
             style = LydType.headlineMdMobile,
             color = LydColors.OnSurface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(LydSpacing.sm), content = actions)
+    }
+}
+
+/**
+ * Root tab title (Listen / Library / Playlists / Search): a large left-aligned
+ * heading with a brand-orange trailing dot, matching the "Lyd." wordmark.
+ * Title always starts at the same x-position regardless of [actions] width,
+ * so the heading doesn't drift between tabs.
+ */
+@Composable
+fun RootTitleBar(
+    title: String,
+    modifier: Modifier = Modifier,
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = LydSpacing.safeArea, vertical = LydSpacing.md),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(
+            text = buildAnnotatedString {
+                append(title)
+                withStyle(SpanStyle(color = LydColors.BrandDot)) { append(".") }
+            },
+            style = LydType.displayMobile,
+            color = LydColors.BrandWordmark,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )

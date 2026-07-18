@@ -29,6 +29,7 @@ import com.lyd.player.core.design.LydShapes
 import com.lyd.player.core.design.LydSpacing
 import com.lyd.player.core.design.LydType
 import com.lyd.player.core.design.PillButton
+import com.lyd.player.core.design.RootTitleBar
 import com.lyd.player.core.design.SongRow
 import com.lyd.player.feature.common.SongActionsHost
 import com.lyd.player.feature.common.rememberArtFile
@@ -43,10 +44,9 @@ fun SearchScreen(
     val results by viewModel.results.collectAsState()
     val actionsState = rememberSongActionsState()
 
-    Column(Modifier.fillMaxSize().padding(top = LydSpacing.xl)) {
+    Column(Modifier.fillMaxSize()) {
+        RootTitleBar(title = "Search")
         Column(Modifier.fillMaxWidth().padding(horizontal = LydSpacing.safeArea)) {
-            Text("Search", style = LydType.displayMobile, color = LydColors.OnSurface)
-            androidx.compose.foundation.layout.Spacer(Modifier.padding(top = LydSpacing.md))
             OutlinedTextField(
                 value = query,
                 onValueChange = { viewModel.query.value = it },

@@ -15,10 +15,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lyd.player.core.design.EmptyState
-import com.lyd.player.core.design.GlassTopBar
 import com.lyd.player.core.design.LydSpacing
 import com.lyd.player.core.design.PillButton
 import com.lyd.player.core.design.PlaylistCard
+import com.lyd.player.core.design.RootTitleBar
 import com.lyd.player.feature.common.rememberArtFile
 
 @Composable
@@ -30,7 +30,7 @@ fun PlaylistsScreen(
     val playlists by viewModel.playlists.collectAsState()
 
     Column(Modifier.fillMaxSize()) {
-        GlassTopBar(
+        RootTitleBar(
             title = "Playlists",
             actions = { PillButton(text = "New", icon = Icons.Filled.Add, onClick = onCreatePlaylist) },
         )

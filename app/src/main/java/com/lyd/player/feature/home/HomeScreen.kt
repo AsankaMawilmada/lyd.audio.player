@@ -36,12 +36,12 @@ import com.lyd.player.core.data.model.Song
 import com.lyd.player.core.design.ArtThumbnail
 import com.lyd.player.core.design.EmptyState
 import com.lyd.player.core.design.FullScreenLoading
-import com.lyd.player.core.design.GlassTopBar
 import com.lyd.player.core.design.LydColors
 import com.lyd.player.core.design.LydShapes
 import com.lyd.player.core.design.LydSpacing
 import com.lyd.player.core.design.LydType
 import com.lyd.player.core.design.PillButton
+import com.lyd.player.core.design.RootTitleBar
 import com.lyd.player.core.design.SectionHeader
 import com.lyd.player.core.design.SongRow
 import com.lyd.player.core.design.TopBarIconAction
@@ -63,8 +63,8 @@ fun HomeScreen(
     var overflowOpen by remember { mutableStateOf(false) }
 
     Column(Modifier.fillMaxSize()) {
-        GlassTopBar(
-            title = "Lyd.",
+        RootTitleBar(
+            title = "Listen",
             actions = {
                 TopBarIconAction(Icons.Filled.Search, "Search", onOpenSearch)
                 Box {

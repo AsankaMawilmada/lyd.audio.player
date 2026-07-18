@@ -48,4 +48,8 @@ object LydColors {
     val GlassSurface = SurfaceContainer.copy(alpha = 0.85f)
     val GlassBackground = Background.copy(alpha = 0.9f)
     val HairlineWhite = Color(0x1AFFFFFF) // white @ 10%
+
+    // Sampled from logo.png — matches the "." in the "Lyd." wordmark
+    val BrandWordmark = Color(0xFFFFFFFF)
+    val BrandDot = Color(0xFFFF5100)
 }

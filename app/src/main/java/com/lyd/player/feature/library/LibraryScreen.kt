@@ -40,7 +40,7 @@ import com.lyd.player.core.design.AlbumCard
 import com.lyd.player.core.design.ArtistRow
 import com.lyd.player.core.design.EmptyState
 import com.lyd.player.core.design.FolderRow
-import com.lyd.player.core.design.GlassTopBar
+import com.lyd.player.core.design.RootTitleBar
 import com.lyd.player.core.design.LydColors
 import com.lyd.player.core.design.LydShapes
 import com.lyd.player.core.design.LydSpacing
@@ -68,7 +68,7 @@ fun LibraryScreen(
     var sortMenuOpen by remember { mutableStateOf(false) }
 
     Column(Modifier.fillMaxSize()) {
-        GlassTopBar(title = "Library")
+        RootTitleBar(title = "Library")
         LibrarySegmentedControl(section = section, onSelect = { viewModel.section.value = it })
 
         if (section == LibrarySection.SONGS) {
