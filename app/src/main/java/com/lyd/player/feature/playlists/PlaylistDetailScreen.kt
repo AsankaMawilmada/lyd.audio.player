@@ -2,6 +2,9 @@
 
 package com.lyd.player.feature.playlists
 
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lyd.player.core.design.EmptyState
 import com.lyd.player.core.design.GlassTopBar
@@ -46,6 +50,7 @@ import com.lyd.player.core.design.PillButton
 import com.lyd.player.core.design.ReorderableColumn
 import com.lyd.player.core.design.SongRow
 import com.lyd.player.core.design.TopBarIconAction
+import com.lyd.player.core.util.M3uPlaylist
 import com.lyd.player.core.util.formatTrackCount
 
 @Composable
@@ -62,6 +67,15 @@ fun PlaylistDetailScreen(
     val playlist = resolved?.playlist
     val songs = resolved?.songs.orEmpty()
 
+    val context = LocalContext.current
+    val exportLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/vnd.apple.mpegurl")) { uri ->
+        if (uri == null) return@rememberLauncherForActivityResult
+        viewModel.exportPlaylist(context.contentResolver, uri) { success ->
+            val message = if (success) "Exported \"${playlist?.name}\"" else "Export failed"
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     Column(Modifier.fillMaxSize()) {
         GlassTopBar(
             title = playlist?.name ?: "",
@@ -72,6 +86,14 @@ fun PlaylistDetailScreen(
                     DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
                         DropdownMenuItem(text = { Text("Rename") }, onClick = { menuOpen = false; renaming = true })
                         DropdownMenuItem(text = { Text("Add songs") }, onClick = { menuOpen = false; addingSongs = true })
+                        DropdownMenuItem(
+                            text = { Text("Export playlist") },
+                            onClick = {
+                                menuOpen = false
+                                val fileName = M3uPlaylist.sanitizeFileName(playlist?.name ?: "Playlist")
+                                exportLauncher.launch("$fileName.m3u8")
+                            },
+                        )
                         if (playlist?.isFavorites == false) {
                             DropdownMenuItem(text = { Text("Delete") }, onClick = { menuOpen = false; confirmingDelete = true })
                         }

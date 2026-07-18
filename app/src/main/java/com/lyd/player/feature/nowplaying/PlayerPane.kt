@@ -1,12 +1,17 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+
 package com.lyd.player.feature.nowplaying
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -23,7 +28,6 @@ import androidx.compose.material.icons.filled.SkipPrevious
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +36,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.lyd.player.core.data.model.RepeatMode
@@ -61,16 +67,21 @@ fun PlayerPane(
     val item = state.currentItem
     var dragPosition by remember { mutableStateOf<Float?>(null) }
 
-    Column(modifier = modifier.fillMaxWidth().padding(horizontal = LydSpacing.safeArea), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier = modifier.fillMaxSize().padding(horizontal = LydSpacing.safeArea), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             "Playing from ${state.playingFrom.ifBlank { "Library" }}",
             style = LydType.labelSm,
             color = LydColors.Secondary,
         )
         androidx.compose.foundation.layout.Spacer(Modifier.padding(top = LydSpacing.md))
+        // weight(fill = false) + matchHeightConstraintsFirst lets the art shrink first when the
+        // screen is short, so fixed-size controls below (esp. the circular play button) never do.
         ArtThumbnail(
             artFile,
-            modifier = Modifier.fillMaxWidth().aspectRatio(1f),
+            modifier = Modifier
+                .weight(1f, fill = false)
+                .fillMaxWidth()
+                .aspectRatio(1f, matchHeightConstraintsFirst = true),
             shape = LydShapes.md,
         )
         androidx.compose.foundation.layout.Spacer(Modifier.padding(top = LydSpacing.xl))
@@ -116,11 +127,23 @@ fun PlayerPane(
                 dragPosition = null
             },
             valueRange = 0f..duration,
-            colors = SliderDefaults.colors(
-                thumbColor = LydColors.OnSurface,
-                activeTrackColor = LydColors.Secondary,
-                inactiveTrackColor = LydColors.SurfaceContainerHighest,
-            ),
+            track = { state ->
+                val fraction = ((state.value - state.valueRange.start) /
+                    (state.valueRange.endInclusive - state.valueRange.start).coerceAtLeast(1f))
+                    .coerceIn(0f, 1f)
+                Canvas(Modifier.fillMaxWidth().height(SEEK_TRACK_THICKNESS)) {
+                    val corner = CornerRadius(size.height / 2)
+                    drawRoundRect(color = LydColors.SurfaceContainerHighest, size = size, cornerRadius = corner)
+                    drawRoundRect(
+                        color = LydColors.Secondary,
+                        size = Size(size.width * fraction, size.height),
+                        cornerRadius = corner,
+                    )
+                }
+            },
+            thumb = {
+                Box(Modifier.size(SEEK_THUMB_DIAMETER).background(LydColors.OnSurface, LydShapes.full))
+            },
         )
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(formatDurationMs(sliderValue.toLong()), style = LydType.labelSm, color = LydColors.OnSurfaceVariant)
@@ -169,3 +192,7 @@ fun PlayerPane(
         }
     }
 }
+
+// Matches the Equalizer's band-bar geometry (BAND_SLIDER_THICKNESS / BAND_THUMB_RADIUS)
+private val SEEK_TRACK_THICKNESS = 3.dp
+private val SEEK_THUMB_DIAMETER = 14.dp

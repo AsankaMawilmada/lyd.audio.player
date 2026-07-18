@@ -60,10 +60,7 @@ fun NowPlayingScreen(
             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
         ) {
             TopBarIconAction(Icons.Filled.ExpandMore, "Collapse", onCollapse)
-            Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
-                Text("LYD", style = LydType.labelSm, color = LydColors.Secondary)
-                Text("Now Playing", style = LydType.headlineMdMobile, color = LydColors.OnSurface)
-            }
+            Text("Now Playing", style = LydType.headlineMdMobile, color = LydColors.OnSurface)
             Box {
                 TopBarIconAction(Icons.Filled.MoreVert, "More") { overflowOpen = true }
                 DropdownMenu(expanded = overflowOpen, onDismissRequest = { overflowOpen = false }) {

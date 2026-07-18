@@ -1,5 +1,7 @@
 package com.lyd.player.feature.playlists
 
+import android.content.ContentResolver
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +10,7 @@ import com.lyd.player.core.data.model.Song
 import com.lyd.player.core.data.repo.LibraryRepository
 import com.lyd.player.core.data.repo.PlaylistRepository
 import com.lyd.player.core.data.repo.search
+import com.lyd.player.core.util.M3uPlaylist
 import com.lyd.player.nav.Routes
 import com.lyd.player.playback.PlayerController
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -94,6 +97,18 @@ class PlaylistDetailViewModel @Inject constructor(
         viewModelScope.launch {
             playlistRepository.delete(playlistId)
             onDone()
+        }
+    }
+
+    /** Writes the current playlist as M3U8 to an already-opened SAF destination [uri]. */
+    fun exportPlaylist(contentResolver: ContentResolver, uri: Uri, onDone: (success: Boolean) -> Unit) {
+        val songs = resolved.value?.songs.orEmpty()
+        viewModelScope.launch {
+            val success = runCatching {
+                contentResolver.openOutputStream(uri)?.use { it.write(M3uPlaylist.write(songs).toByteArray()) }
+                    ?: error("Could not open destination for writing")
+            }.isSuccess
+            onDone(success)
         }
     }
 }
