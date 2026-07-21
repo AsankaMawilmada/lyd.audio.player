@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lyd — Privacy Policy</title>
+<meta name="description" content="Privacy policy for the Lyd Android music player — no data collection, fully offline." />
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --surface-2: #eceef1;
+    --text: #15171c;
+    --text-muted: #5b5e66;
+    --border: rgba(15, 17, 21, 0.10);
+    --accent: #d94e0a;
+    --accent-soft: #fce4d6;
+    --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111318;
+      --surface: #191c20;
+      --surface-2: #1e2025;
+      --text: #e2e2e9;
+      --text-muted: #a4a7ae;
+      --border: rgba(255, 255, 255, 0.09);
+      --accent: #ff9662;
+      --accent-soft: #3a2416;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16.5px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+
+  header.masthead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .wordmark {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .wordmark span { color: var(--accent); }
+  .masthead-meta {
+    text-align: right;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  h1.title {
+    font-family: var(--serif);
+    font-size: clamp(32px, 5vw, 42px);
+    line-height: 1.15;
+    margin: 0 0 10px;
+    text-wrap: balance;
+  }
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 17px;
+    margin: 0 0 40px;
+    max-width: 60ch;
+  }
+
+  .summary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 22px 26px;
+    margin-bottom: 44px;
+  }
+  .summary h2 {
+    margin: 0 0 12px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .summary ul { margin: 0; padding-left: 1.1em; }
+  .summary li { margin-bottom: 8px; }
+  .summary li:last-child { margin-bottom: 0; }
+
+  nav.toc {
+    margin-bottom: 48px;
+    padding: 18px 22px;
+    background: var(--surface-2);
+    border-radius: 6px;
+  }
+  nav.toc h2 {
+    margin: 0 0 10px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  nav.toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 2;
+    column-gap: 24px;
+  }
+  nav.toc li { break-inside: avoid; margin-bottom: 6px; }
+  nav.toc a { text-decoration: none; color: var(--text); font-size: 14.5px; }
+  nav.toc a:hover { color: var(--accent); }
+  nav.toc a::before {
+    content: "→ ";
+    color: var(--accent);
+  }
+
+  section { margin-bottom: 40px; scroll-margin-top: 24px; }
+  section h2 {
+    font-size: 21px;
+    margin: 0 0 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  section h2 .num {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--accent);
+    font-size: 17px;
+    font-weight: 400;
+  }
+  section p, section li { max-width: 66ch; }
+  section p { margin: 0 0 14px; }
+  section ul { margin: 0 0 14px; padding-left: 1.2em; }
+  section li { margin-bottom: 8px; }
+  section strong { font-weight: 600; }
+
+  table.permissions {
+    width: 100%;
+    max-width: 66ch;
+    border-collapse: collapse;
+    margin: 8px 0 20px;
+    font-size: 15px;
+  }
+  table.permissions th, table.permissions td {
+    text-align: left;
+    padding: 10px 14px 10px 0;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table.permissions th {
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .overflow-wrap { overflow-x: auto; }
+
+  footer.page-footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  footer.page-footer a { color: var(--text); text-decoration: underline; }
+
+  @media (max-width: 560px) {
+    nav.toc ol { columns: 1; }
+    header.masthead { flex-direction: column; align-items: flex-start; }
+    .masthead-meta { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <div class="wordmark">Lyd<span>.</span></div>
+    <div class="masthead-meta">
+      Effective&nbsp;21&nbsp;July&nbsp;2026<br />
+      Local music player for Android
+    </div>
+  </header>
+
+  <h1 class="title">Privacy Policy</h1>
+  <p class="subtitle">
+    Lyd is a music player that works entirely with the files already on your phone. This page
+    explains, plainly, what that means for your data.
+  </p>
+
+  <div class="summary">
+    <h2>In short</h2>
+    <ul>
+      <li>Lyd has <strong>no internet access</strong> — it cannot send anything anywhere, because it has no way to.</li>
+      <li>We do not collect, see, or store your personal information on any server, because we don't run one.</li>
+      <li>No accounts, no analytics, no ads, no crash reporting, no third-party SDKs of any kind.</li>
+      <li>Everything Lyd creates — playlists, favorites, cached artwork — stays in Lyd's own storage on your device.</li>
+    </ul>
+  </div>
+
+  <nav class="toc" aria-label="Table of contents">
+    <h2>On this page</h2>
+    <ol>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#not-collected">Information we don't collect</a></li>
+      <li><a href="#permissions">Permissions we use, and why</a></li>
+      <li><a href="#on-device">What Lyd stores on your device</a></li>
+      <li><a href="#lyrics">Lyrics</a></li>
+      <li><a href="#third-party">Third-party services</a></li>
+      <li><a href="#children">Children's privacy</a></li>
+      <li><a href="#retention">Data retention &amp; deletion</a></li>
+      <li><a href="#changes">Changes to this policy</a></li>
+      <li><a href="#contact">Contact us</a></li>
+    </ol>
+  </nav>
+
+  <section id="introduction">
+    <h2><span class="num">01</span> Introduction</h2>
+    <p>
+      Lyd ("the app", "we", "our") is developed by Inoaspect. Lyd scans and plays the audio files
+      already stored on your device — it is not a streaming service, does not require sign-in, and
+      does not have a backend server. This policy describes what that architecture means in
+      practice for any personal information.
+    </p>
+    <p>
+      By using Lyd, you agree to the practices (or, more precisely, the absence of practices)
+      described below.
+    </p>
+  </section>
+
+  <section id="not-collected">
+    <h2><span class="num">02</span> Information we don't collect</h2>
+    <p>Lyd does not collect, transmit, or have access to, any of the following:</p>
+    <ul>
+      <li>Your name, email address, phone number, or any other account or contact information — Lyd has no sign-in of any kind.</li>
+      <li>Your location.</li>
+      <li>Analytics or usage statistics (what you play, how often you open the app, how long you listen).</li>
+      <li>Crash reports or diagnostic logs sent off your device.</li>
+      <li>Advertising identifiers — Lyd shows no ads.</li>
+      <li>The contents, titles, or metadata of your music library, sent anywhere off your phone.</li>
+    </ul>
+    <p>
+      This isn't a policy choice layered on top of a data-collecting app — Lyd does not request the
+      <code>INTERNET</code> permission at all, so there is no network path for any of the above to
+      travel over, even in principle.
+    </p>
+  </section>
+
+  <section id="permissions">
+    <h2><span class="num">03</span> Permissions we use, and why</h2>
+    <p>Lyd asks for a small number of on-device permissions, each tied to a specific feature:</p>
+    <div class="overflow-wrap">
+    <table class="permissions">
+      <thead>
+        <tr><th>Permission</th><th>What it's for</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Music &amp; audio&nbsp;/ Storage<br /><span style="color:var(--text-muted)">(READ_MEDIA_AUDIO, READ_EXTERNAL_STORAGE)</span></td>
+          <td>Lets Lyd find and read the audio files on your device so it can build your library. Reading only — Lyd doesn't modify your files.</td>
+        </tr>
+        <tr>
+          <td>Storage (legacy)<br /><span style="color:var(--text-muted)">(WRITE_EXTERNAL_STORAGE, Android&nbsp;9 and below only)</span></td>
+          <td>Only used if you choose to delete a song from within Lyd, on older Android versions that require it. Newer Android versions handle this through a system confirmation dialog instead.</td>
+        </tr>
+        <tr>
+          <td>Notifications<br /><span style="color:var(--text-muted)">(POST_NOTIFICATIONS)</span></td>
+          <td>Shows the playback notification with play/pause/skip controls, including on the lock screen.</td>
+        </tr>
+        <tr>
+          <td>Foreground service, wake lock<br /><span style="color:var(--text-muted)">(FOREGROUND_SERVICE, FOREGROUND_SERVICE_MEDIA_PLAYBACK, WAKE_LOCK)</span></td>
+          <td>Lets music keep playing when Lyd is in the background or your screen is off.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section id="on-device">
+    <h2><span class="num">04</span> What Lyd stores on your device</h2>
+    <p>
+      To do its job, Lyd keeps a small amount of data — all of it local, in storage private to the
+      app, none of it visible to us:
+    </p>
+    <ul>
+      <li><strong>Playlists and Favorites</strong> — the lists you create, stored as references to your existing files.</li>
+      <li><strong>Recently played</strong> — a short local history (most-recent 20 tracks) used to populate the "Recently Played" row.</li>
+      <li><strong>Cached album artwork</strong> — artwork already embedded in your files or supplied by your device's media library, cached locally so Lyd doesn't have to re-read it every time.</li>
+      <li><strong>Equalizer and playback settings</strong> — your chosen preset, band levels, and similar preferences.</li>
+    </ul>
+    <p>This data lives in Lyd's app-private storage. It is not synced, backed up to any Lyd-controlled server, or shared with anyone, because there is nowhere for it to go.</p>
+  </section>
+
+  <section id="lyrics">
+    <h2><span class="num">05</span> Lyrics</h2>
+    <p>
+      Lyd can display lyrics for a track, but only ever by reading files already on your device: a
+      matching <code>.lrc</code> file stored alongside the song, or lyrics already embedded in the
+      song's own tags. Lyd does not query any lyrics website or API, so no track or artist
+      information is ever sent anywhere to fetch lyrics.
+    </p>
+  </section>
+
+  <section id="third-party">
+    <h2><span class="num">06</span> Third-party services</h2>
+    <p>
+      Lyd contains no third-party analytics, advertising, or crash-reporting SDKs, and makes no
+      network requests of any kind. There is no third-party service to disclose data practices for,
+      because none are integrated into the app.
+    </p>
+  </section>
+
+  <section id="children">
+    <h2><span class="num">07</span> Children's privacy</h2>
+    <p>
+      Because Lyd does not collect personal information from any user, it does not knowingly
+      collect personal information from children. Lyd is suitable for a general audience on that
+      basis.
+    </p>
+  </section>
+
+  <section id="retention">
+    <h2><span class="num">08</span> Data retention &amp; deletion</h2>
+    <p>
+      All data Lyd stores lives in the app's private storage on your device. You can remove it at
+      any time by:
+    </p>
+    <ul>
+      <li>Clearing Lyd's app storage from Android's Settings &rarr; Apps &rarr; Lyd &rarr; Storage, or</li>
+      <li>Uninstalling Lyd, which removes all app-private data as part of the standard Android uninstall process.</li>
+    </ul>
+    <p>Because none of this data ever reaches us, there is nothing for us to separately retain or delete on your behalf.</p>
+  </section>
+
+  <section id="changes">
+    <h2><span class="num">09</span> Changes to this policy</h2>
+    <p>
+      If Lyd's data practices ever change — for example, if a future version adds an optional
+      online feature — this page will be updated first, with a new effective date above, before
+      that version is released.
+    </p>
+  </section>
+
+  <section id="contact">
+    <h2><span class="num">10</span> Contact us</h2>
+    <p>
+      Questions about this policy or Lyd's data practices can be sent to
+      <a href="mailto:privacy@inoaspect.com.au">privacy@inoaspect.com.au</a>.
+    </p>
+  </section>
+
+  <footer class="page-footer">
+    Lyd is developed by Inoaspect (<a href="https://www.inoaspect.com.au/">inoaspect.com.au</a>).
+    This policy applies to the Lyd Android app only.
+  </footer>
+
+</div>
+</body>
+</html>
