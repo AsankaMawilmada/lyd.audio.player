@@ -13,11 +13,11 @@ val keystoreProperties = Properties().apply {
 }
 
 android {
-    namespace = "com.lyd.player"
+    namespace = "au.com.inoaspect.lyd.audio"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.lyd.player"
+        applicationId = "au.com.inoaspect.lyd.audio"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
