@@ -4,6 +4,7 @@ import au.com.inoaspect.lyd.audio.core.data.db.RecentPlayDao
 import au.com.inoaspect.lyd.audio.core.data.model.Song
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,4 +21,7 @@ class RecentPlaysRepository @Inject constructor(
         combine(dao.observeRecentPlays(), libraryRepository.songs) { recent, _ ->
             recent.mapNotNull { libraryRepository.songByPath(it.songPath) }
         }
+
+    /** One-shot snapshot for callers that can't observe a [Flow] (e.g. Android Auto's media-browser callbacks). */
+    suspend fun currentRecentSongs(): List<Song> = observeRecentSongs().first()
 }

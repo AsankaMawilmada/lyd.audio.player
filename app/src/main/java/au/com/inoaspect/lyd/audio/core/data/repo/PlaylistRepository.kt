@@ -8,6 +8,7 @@ import au.com.inoaspect.lyd.audio.core.data.model.Playlist
 import au.com.inoaspect.lyd.audio.core.data.model.ResolvedPlaylist
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -53,6 +54,10 @@ class PlaylistRepository @Inject constructor(
         dao.observePlaylistsWithSongs().map { list ->
             list.firstOrNull { it.playlist.isFavorites }?.songs?.map { it.songPath }?.toSet().orEmpty()
         }
+
+    /** One-shot snapshots for callers that can't observe a [Flow] (e.g. Android Auto's media-browser callbacks). */
+    suspend fun currentPlaylists(): List<Playlist> = observePlaylists().first()
+    suspend fun currentFavoritePaths(): Set<String> = observeFavoritePaths().first()
 
     suspend fun isFavorite(songPath: String): Boolean {
         val favorites = dao.getFavoritesPlaylist() ?: return false
