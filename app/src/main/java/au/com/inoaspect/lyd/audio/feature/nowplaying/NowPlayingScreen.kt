@@ -1,5 +1,9 @@
 package au.com.inoaspect.lyd.audio.feature.nowplaying
 
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,15 +14,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Equalizer
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PlaylistAdd
 import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +39,7 @@ import au.com.inoaspect.lyd.audio.core.design.LydColors
 import au.com.inoaspect.lyd.audio.core.design.LydShapes
 import au.com.inoaspect.lyd.audio.core.design.LydSpacing
 import au.com.inoaspect.lyd.audio.core.design.LydType
+import au.com.inoaspect.lyd.audio.core.design.PillButton
 import au.com.inoaspect.lyd.audio.core.design.TopBarIconAction
 import au.com.inoaspect.lyd.audio.feature.common.rememberArtFile
 import au.com.inoaspect.lyd.audio.feature.sleeptimer.SleepTimerSheet
@@ -45,11 +54,30 @@ fun NowPlayingScreen(
 ) {
     val playbackState by viewModel.playbackState.collectAsState()
     val lyricsState by viewModel.lyricsState.collectAsState()
+    val lyricsFilePath by viewModel.lyricsFilePath.collectAsState()
     val isFavorite by viewModel.isFavorite.collectAsState()
     var pane by remember { mutableStateOf(NowPlayingPane.PLAYER) }
     var overflowOpen by remember { mutableStateOf(false) }
     var showSleepTimer by remember { mutableStateOf(false) }
+    var confirmingLyricsDelete by remember { mutableStateOf(false) }
     val actionsState = au.com.inoaspect.lyd.audio.feature.common.rememberSongActionsState()
+
+    val showLyricsTab = lyricsState != LyricsUiState.Empty
+    LaunchedEffect(showLyricsTab) {
+        if (!showLyricsTab && pane == NowPlayingPane.LYRICS) pane = NowPlayingPane.PLAYER
+    }
+
+    var pendingLyricsConsent by remember { mutableStateOf<LyricsDeleteConsentRequest?>(null) }
+    val lyricsDeleteLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        pendingLyricsConsent?.let { viewModel.onLyricsDeleteConsentResult(it, result.resultCode == Activity.RESULT_OK) }
+        pendingLyricsConsent = null
+    }
+    LaunchedEffect(viewModel) {
+        viewModel.lyricsDeleteConsentRequest.collect { request ->
+            pendingLyricsConsent = request
+            lyricsDeleteLauncher.launch(IntentSenderRequest.Builder(request.intentSender).build())
+        }
+    }
 
     val artFile = playbackState.currentItem?.artworkUri
 
@@ -82,11 +110,21 @@ fun NowPlayingScreen(
                             playbackState.currentItem?.path?.let { actionsState.addToPlaylistPaths = listOf(it) }
                         },
                     )
+                    if (lyricsFilePath != null) {
+                        DropdownMenuItem(
+                            text = { Text("Delete lyrics file", color = LydColors.Error) },
+                            leadingIcon = { Icon(Icons.Filled.Delete, contentDescription = null, tint = LydColors.Error) },
+                            onClick = {
+                                overflowOpen = false
+                                confirmingLyricsDelete = true
+                            },
+                        )
+                    }
                 }
             }
         }
 
-        PaneSegmentedControl(pane = pane, onSelect = { pane = it })
+        PaneSegmentedControl(pane = pane, showLyrics = showLyricsTab, onSelect = { pane = it })
 
         Box(Modifier.fillMaxSize().padding(top = LydSpacing.md)) {
             when (pane) {
@@ -126,19 +164,39 @@ fun NowPlayingScreen(
     if (showSleepTimer) {
         SleepTimerSheet(onDismiss = { showSleepTimer = false })
     }
+    if (confirmingLyricsDelete) {
+        AlertDialog(
+            onDismissRequest = { confirmingLyricsDelete = false },
+            containerColor = LydColors.SurfaceContainer,
+            title = { Text("Delete lyrics file?", color = LydColors.OnSurface) },
+            text = {
+                Text(
+                    "The lyrics file for \"${playbackState.currentItem?.title.orEmpty()}\" will be permanently deleted from this device. This can't be undone.",
+                    color = LydColors.OnSurfaceVariant,
+                )
+            },
+            confirmButton = {
+                PillButton(text = "Delete") {
+                    confirmingLyricsDelete = false
+                    viewModel.deleteLyricsFile()
+                }
+            },
+            dismissButton = { PillButton(text = "Cancel", filled = false) { confirmingLyricsDelete = false } },
+        )
+    }
 }
 
 @Composable
-private fun PaneSegmentedControl(pane: NowPlayingPane, onSelect: (NowPlayingPane) -> Unit) {
+private fun PaneSegmentedControl(pane: NowPlayingPane, showLyrics: Boolean, onSelect: (NowPlayingPane) -> Unit) {
     Row(
         Modifier.fillMaxWidth().padding(horizontal = LydSpacing.safeArea),
         horizontalArrangement = Arrangement.spacedBy(LydSpacing.sm),
     ) {
-        listOf(
-            NowPlayingPane.PLAYER to "Player",
-            NowPlayingPane.LYRICS to "Lyrics",
-            NowPlayingPane.QUEUE to "Queue",
-        ).forEach { (value, label) ->
+        buildList {
+            add(NowPlayingPane.PLAYER to "Player")
+            if (showLyrics) add(NowPlayingPane.LYRICS to "Lyrics")
+            add(NowPlayingPane.QUEUE to "Queue")
+        }.forEach { (value, label) ->
             val selected = value == pane
             Text(
                 text = label,

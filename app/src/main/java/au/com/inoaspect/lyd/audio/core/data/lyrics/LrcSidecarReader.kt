@@ -9,16 +9,20 @@ import java.io.File
  */
 object LrcSidecarReader {
 
-    fun read(songPath: String): LyricsResult {
+    /** The sidecar `.lrc` file for [songPath], if one exists next to the song. */
+    fun find(songPath: String): File? {
         val songFile = File(songPath)
         val baseName = songFile.nameWithoutExtension
-        val dir = songFile.parentFile ?: return LyricsResult.NotFound
+        val dir = songFile.parentFile ?: return null
         val exactMatch = File(dir, "$baseName.lrc")
-        val lrcFile = when {
+        return when {
             exactMatch.isFile -> exactMatch
             else -> dir.listFiles { f -> f.isFile && f.name.equals("$baseName.lrc", ignoreCase = true) }?.firstOrNull()
-        } ?: return LyricsResult.NotFound
+        }
+    }
 
+    fun read(songPath: String): LyricsResult {
+        val lrcFile = find(songPath) ?: return LyricsResult.NotFound
         return try {
             textToLyricsResult(lrcFile.readText(Charsets.UTF_8))
         } catch (_: Exception) {
