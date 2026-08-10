@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import au.com.inoaspect.lyd.audio.core.data.model.Song
 import au.com.inoaspect.lyd.audio.core.data.repo.LibraryRepository
 import au.com.inoaspect.lyd.audio.core.data.repo.RecentPlaysRepository
+import au.com.inoaspect.lyd.audio.playback.EqualizerController
 import au.com.inoaspect.lyd.audio.playback.PlayerController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,10 +23,13 @@ class HomeViewModel @Inject constructor(
     private val libraryRepository: LibraryRepository,
     recentPlaysRepository: RecentPlaysRepository,
     private val playerController: PlayerController,
+    equalizerController: EqualizerController,
 ) : ViewModel() {
 
     val songs: StateFlow<List<Song>?> = libraryRepository.songs
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    val eqBadgeText: StateFlow<String?> = equalizerController.badgeText
 
     val recentSongs: StateFlow<List<Song>> = recentPlaysRepository.observeRecentSongs()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())

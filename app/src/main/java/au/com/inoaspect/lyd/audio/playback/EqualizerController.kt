@@ -1,11 +1,20 @@
 package au.com.inoaspect.lyd.audio.playback
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.media.audiofx.Equalizer
+import androidx.core.content.edit
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
+
+private const val PREFS_NAME = "equalizer"
+private const val KEY_ENABLED = "enabled"
+private const val KEY_PRESET = "preset"
+private const val KEY_CUSTOM_LEVELS = "custom_levels"
 
 data class EqBand(
     val index: Int,
@@ -27,20 +36,43 @@ data class EqualizerUiState(
  * Wraps the device-native [Equalizer] audio effect attached to the current playback session.
  * Band count/frequencies/range all come from whatever the device reports — nothing here is
  * hardcoded to a specific layout, so every band the UI shows is a real, independent one (no two
- * sliders ever share the same underlying gain). Settings persist for the lifetime of the app
- * process (they are re-applied on every [attach], e.g. after the playback service is recreated)
- * but are not required to survive a full process death.
+ * sliders ever share the same underlying gain). Settings are persisted to [SharedPreferences] so
+ * they survive process death and are re-applied on every [attach] (e.g. after the playback
+ * service is recreated).
  */
 @Singleton
-class EqualizerController @Inject constructor() {
+class EqualizerController @Inject constructor(
+    @ApplicationContext context: Context,
+) {
+
+    private val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     private var equalizer: Equalizer? = null
-    private var pendingEnabled = true
-    private var pendingPreset = BALANCED_PRESET_NAME
-    private var pendingCustomLevels: List<Int>? = null
+    private var pendingEnabled = prefs.getBoolean(KEY_ENABLED, true)
+    private var pendingPreset = prefs.getString(KEY_PRESET, BALANCED_PRESET_NAME) ?: BALANCED_PRESET_NAME
+    private var pendingCustomLevels: List<Int>? = prefs.getString(KEY_CUSTOM_LEVELS, null)
+        ?.split(',')
+        ?.mapNotNull { it.toIntOrNull() }
+        ?.takeIf { it.isNotEmpty() }
 
     private val _state = MutableStateFlow(EqualizerUiState())
     val state: StateFlow<EqualizerUiState> = _state.asStateFlow()
+
+    /** Active preset name for display elsewhere (e.g. a Home-tab badge), or null if there's nothing worth flagging. */
+    private val _badgeText = MutableStateFlow(computeBadgeText())
+    val badgeText: StateFlow<String?> = _badgeText.asStateFlow()
+
+    private fun computeBadgeText(): String? =
+        if (pendingEnabled && pendingPreset != BALANCED_PRESET_NAME) pendingPreset else null
+
+    private fun persistAndRefreshBadge() {
+        prefs.edit {
+            putBoolean(KEY_ENABLED, pendingEnabled)
+            putString(KEY_PRESET, pendingPreset)
+            putString(KEY_CUSTOM_LEVELS, pendingCustomLevels?.joinToString(","))
+        }
+        _badgeText.value = computeBadgeText()
+    }
 
     fun attach(audioSessionId: Int) {
         release()
@@ -88,6 +120,7 @@ class EqualizerController @Inject constructor() {
         pendingEnabled = enabled
         equalizer?.enabled = enabled
         _state.value = _state.value.copy(enabled = enabled)
+        persistAndRefreshBadge()
     }
 
     fun setBandLevel(bandIndex: Int, levelMilliBel: Int) {
@@ -98,6 +131,7 @@ class EqualizerController @Inject constructor() {
         pendingPreset = CUSTOM_PRESET_NAME
         pendingCustomLevels = _state.value.bands.map { if (it.index == bandIndex) clamped else it.levelMilliBel }
         syncBandsFromEffect()
+        persistAndRefreshBadge()
     }
 
     fun applyPreset(name: String) {
@@ -114,6 +148,7 @@ class EqualizerController @Inject constructor() {
         pendingPreset = name
         pendingCustomLevels = if (name == CUSTOM_PRESET_NAME) levels else null
         syncBandsFromEffect(activePreset = name)
+        persistAndRefreshBadge()
     }
 
     private fun syncBandsFromEffect(activePreset: String = pendingPreset) {

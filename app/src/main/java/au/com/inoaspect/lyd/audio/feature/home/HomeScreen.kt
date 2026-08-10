@@ -1,5 +1,6 @@
 package au.com.inoaspect.lyd.audio.feature.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -29,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -59,6 +62,7 @@ fun HomeScreen(
 ) {
     val songs by viewModel.songs.collectAsState()
     val recentSongs by viewModel.recentSongs.collectAsState()
+    val eqBadgeText by viewModel.eqBadgeText.collectAsState()
     val actionsState = rememberSongActionsState()
     var overflowOpen by remember { mutableStateOf(false) }
 
@@ -66,26 +70,38 @@ fun HomeScreen(
         RootTitleBar(
             title = "Listen",
             actions = {
-                TopBarIconAction(Icons.Filled.Search, "Search", onOpenSearch)
-                Box {
-                    TopBarIconAction(Icons.Filled.MoreVert, "Menu") { overflowOpen = true }
-                    androidx.compose.material3.DropdownMenu(expanded = overflowOpen, onDismissRequest = { overflowOpen = false }) {
-                        androidx.compose.material3.DropdownMenuItem(
-                            text = { Text("Sort songs") },
-                            onClick = { overflowOpen = false; onOpenLibrary("songs") },
-                        )
-                        androidx.compose.material3.DropdownMenuItem(
-                            text = { Text("Equalizer") },
-                            onClick = { overflowOpen = false; onOpenEqualizer() },
-                        )
-                        androidx.compose.material3.DropdownMenuItem(
-                            text = { Text("Sleep timer") },
-                            onClick = { overflowOpen = false; onOpenSleepTimer() },
-                        )
-                        androidx.compose.material3.DropdownMenuItem(
-                            text = { Text("Rescan library") },
-                            onClick = { overflowOpen = false; viewModel.rescan() },
-                        )
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(LydSpacing.sm)) {
+                    if (eqBadgeText != null) {
+                        Box(
+                            Modifier
+                                .clickable(onClick = onOpenEqualizer)
+                                .background(LydColors.SurfaceContainerHighest, LydShapes.full)
+                                .padding(horizontal = LydSpacing.sm, vertical = 4.dp),
+                        ) {
+                            Text("EQ · $eqBadgeText", style = LydType.labelSm, color = LydColors.OnSurface)
+                        }
+                    }
+                    TopBarIconAction(Icons.Filled.Search, "Search", onOpenSearch)
+                    Box {
+                        TopBarIconAction(Icons.Filled.MoreVert, "Menu") { overflowOpen = true }
+                        androidx.compose.material3.DropdownMenu(expanded = overflowOpen, onDismissRequest = { overflowOpen = false }) {
+                            androidx.compose.material3.DropdownMenuItem(
+                                text = { Text("Sort songs") },
+                                onClick = { overflowOpen = false; onOpenLibrary("songs") },
+                            )
+                            androidx.compose.material3.DropdownMenuItem(
+                                text = { Text("Equalizer") },
+                                onClick = { overflowOpen = false; onOpenEqualizer() },
+                            )
+                            androidx.compose.material3.DropdownMenuItem(
+                                text = { Text("Sleep timer") },
+                                onClick = { overflowOpen = false; onOpenSleepTimer() },
+                            )
+                            androidx.compose.material3.DropdownMenuItem(
+                                text = { Text("Rescan library") },
+                                onClick = { overflowOpen = false; viewModel.rescan() },
+                            )
+                        }
                     }
                 }
             },
@@ -158,7 +174,7 @@ private fun RecentSongCard(song: Song, onClick: () -> Unit) {
             modifier = Modifier.fillMaxWidth().aspectRatio(1f),
             shape = LydShapes.default,
         )
-        Text(song.title, style = LydType.headlineMdMobile, color = LydColors.OnSurface, maxLines = 1)
+        Text(song.title, style = LydType.headlineMdMobile, color = LydColors.OnSurface, maxLines = 2, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
         Text(song.artist, style = LydType.bodyMd, color = LydColors.OnSurfaceVariant, maxLines = 1)
     }
 }

@@ -32,6 +32,7 @@ class CreatePlaylistViewModel @Inject constructor(
     val songSearchQuery = MutableStateFlow("")
     val selectedSongPaths = MutableStateFlow<Set<String>>(emptySet())
     val selectedFolderPaths = MutableStateFlow<Set<String>>(emptySet())
+    private val attemptedCreate = MutableStateFlow(false)
 
     private val rawSongs: StateFlow<List<Song>?> = libraryRepository.songs
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
@@ -48,6 +49,19 @@ class CreatePlaylistViewModel @Inject constructor(
         n.isNotBlank() && if (m == CreatePlaylistMode.SONGS) songPaths.isNotEmpty() else folderPaths.isNotEmpty()
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
+    val nameError: StateFlow<String?> = combine(name, attemptedCreate) { n, attempted ->
+        if (attempted && n.isBlank()) "Enter a playlist name" else null
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    val selectionError: StateFlow<String?> = combine(mode, selectedSongPaths, selectedFolderPaths, attemptedCreate) { m, songPaths, folderPaths, attempted ->
+        if (!attempted) return@combine null
+        when {
+            m == CreatePlaylistMode.SONGS && songPaths.isEmpty() -> "Select at least one song"
+            m == CreatePlaylistMode.FOLDERS && folderPaths.isEmpty() -> "Select at least one folder"
+            else -> null
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
     fun toggleSong(path: String) {
         selectedSongPaths.update { if (path in it) it - path else it + path }
     }
@@ -58,7 +72,6 @@ class CreatePlaylistViewModel @Inject constructor(
 
     fun create(onDone: (Long) -> Unit) {
         val trimmedName = name.value.trim()
-        if (trimmedName.isBlank()) return
         val paths = if (mode.value == CreatePlaylistMode.SONGS) {
             selectedSongPaths.value.toList()
         } else {
@@ -66,7 +79,10 @@ class CreatePlaylistViewModel @Inject constructor(
                 .filter { it.folderPath in selectedFolderPaths.value }
                 .map { it.path }
         }
-        if (paths.isEmpty()) return
+        if (trimmedName.isBlank() || paths.isEmpty()) {
+            attemptedCreate.value = true
+            return
+        }
         viewModelScope.launch {
             val id = playlistRepository.createPlaylist(trimmedName, paths.distinct())
             onDone(id)

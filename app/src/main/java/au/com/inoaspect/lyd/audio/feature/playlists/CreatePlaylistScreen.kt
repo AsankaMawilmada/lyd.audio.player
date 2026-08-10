@@ -40,6 +40,8 @@ fun CreatePlaylistScreen(
     val selectedSongs by viewModel.selectedSongPaths.collectAsState()
     val selectedFolders by viewModel.selectedFolderPaths.collectAsState()
     val canCreate by viewModel.canCreate.collectAsState()
+    val nameError by viewModel.nameError.collectAsState()
+    val selectionError by viewModel.selectionError.collectAsState()
 
     Column(Modifier.fillMaxSize()) {
         GlassTopBar(
@@ -62,10 +64,16 @@ fun CreatePlaylistScreen(
                     unfocusedTextColor = LydColors.OnSurface,
                 ),
             )
+            if (nameError != null) {
+                Text(nameError!!, style = LydType.labelSm, color = LydColors.Error, modifier = Modifier.padding(top = LydSpacing.xs))
+            }
             androidx.compose.foundation.layout.Spacer(Modifier.padding(top = LydSpacing.md))
             Row(horizontalArrangement = Arrangement.spacedBy(LydSpacing.sm)) {
                 ModeTab("By songs", mode == CreatePlaylistMode.SONGS) { viewModel.mode.value = CreatePlaylistMode.SONGS }
                 ModeTab("By folders", mode == CreatePlaylistMode.FOLDERS) { viewModel.mode.value = CreatePlaylistMode.FOLDERS }
+            }
+            if (selectionError != null) {
+                Text(selectionError!!, style = LydType.labelSm, color = LydColors.Error, modifier = Modifier.padding(top = LydSpacing.xs))
             }
         }
 

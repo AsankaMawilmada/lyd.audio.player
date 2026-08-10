@@ -89,7 +89,7 @@ fun SongRow(
                 text = song.title,
                 style = LydType.headlineMdMobile,
                 color = if (isActive) LydColors.Secondary else LydColors.OnSurface,
-                maxLines = 1,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(

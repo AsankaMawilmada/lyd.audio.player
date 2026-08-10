@@ -53,7 +53,7 @@ class LibraryScanner @Inject constructor(
                 val rawAlbum = cursor.getString(albumCol)
                 songs += Song(
                     path = path,
-                    title = cursor.getString(titleCol) ?: path.substringAfterLast('/'),
+                    title = humanizeRecorderTitle(cursor.getString(titleCol) ?: path.substringAfterLast('/')),
                     artist = rawArtist?.takeIf { it.isNotBlank() && it != "<unknown>" } ?: UNKNOWN_ARTIST,
                     album = rawAlbum?.takeIf { it.isNotBlank() } ?: UNKNOWN_ALBUM,
                     albumId = cursor.getLong(albumIdCol),

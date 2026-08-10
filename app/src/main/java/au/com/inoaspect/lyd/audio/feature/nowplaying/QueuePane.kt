@@ -85,7 +85,7 @@ fun QueuePane(
                             item.title,
                             style = LydType.headlineMdMobile,
                             color = if (isCurrent) LydColors.Secondary else LydColors.OnSurface,
-                            maxLines = 1,
+                            maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
                         )
                         Text(item.artist, style = LydType.bodyMd, color = LydColors.OnSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
