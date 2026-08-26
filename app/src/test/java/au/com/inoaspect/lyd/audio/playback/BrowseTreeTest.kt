@@ -91,6 +91,13 @@ class BrowseTreeTest {
     }
 
     @Test
+    fun `playlist node is both browsable and playable so Android Auto can tap-to-play it`() {
+        val node = BrowseTree.playlistNode(playlist)
+        assertTrue(node.mediaMetadata.isBrowsable == true)
+        assertTrue(node.mediaMetadata.isPlayable == true)
+    }
+
+    @Test
     fun `recently played and favorites reflect whatever song lists are passed in`() {
         val recent = BrowseTree.childrenFor(
             BrowseIds.RECENT, allSongs, albums, artists, folders, listOf(playlist),

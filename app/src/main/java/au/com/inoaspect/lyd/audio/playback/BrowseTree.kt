@@ -143,11 +143,17 @@ object BrowseTree {
         return MediaItem.Builder().setMediaId(BrowseIds.folder(folder.path)).setMediaMetadata(metadata).build()
     }
 
+    /**
+     * Both browsable (drill into the track list) and playable (tapping the row itself, or its
+     * play affordance in Android Auto, starts the whole playlist) — see
+     * [au.com.inoaspect.lyd.audio.playback.PlaybackService.LibrarySessionCallback.onSetMediaItems]
+     * for how a tap-to-play on this node id is expanded into the playlist's songs.
+     */
     fun playlistNode(playlist: Playlist): MediaItem {
         val metadata = MediaMetadata.Builder()
             .setTitle(playlist.name)
             .setIsBrowsable(true)
-            .setIsPlayable(false)
+            .setIsPlayable(true)
             .setMediaType(MediaMetadata.MEDIA_TYPE_PLAYLIST)
             .build()
         return MediaItem.Builder().setMediaId(BrowseIds.playlist(playlist.id)).setMediaMetadata(metadata).build()

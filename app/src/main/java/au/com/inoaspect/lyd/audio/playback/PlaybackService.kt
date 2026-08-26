@@ -186,6 +186,17 @@ class PlaybackService : MediaLibraryService() {
             startIndex: Int,
             startPositionMs: Long,
         ): ListenableFuture<MediaSession.MediaItemsWithStartPosition> = serviceScope.future {
+            val tappedPlaylistId = mediaItems.singleOrNull()?.mediaId?.let(BrowseIds::playlistId)
+            if (tappedPlaylistId != null) {
+                val playlist = playlistRepository.currentPlaylists().firstOrNull { it.id == tappedPlaylistId }
+                val byPath = libraryRepository.songs.value.orEmpty().associateBy { it.path }
+                val playlistSongs = playlist?.songPaths.orEmpty().mapNotNull { byPath[it] }
+                if (playlistSongs.isNotEmpty()) {
+                    val art = artMapFor(playlistSongs)
+                    val items = playlistSongs.map { it.toMediaItem(art[it.albumId]) }
+                    return@future MediaSession.MediaItemsWithStartPosition(items, 0, startPositionMs)
+                }
+            }
             val resolved = mediaItems.mapNotNull { libraryRepository.songByPath(it.mediaId) }
             val (finalSongs, finalStartIndex) = if (resolved.size == 1) {
                 // A single resolved song (voice command, or "play" on a lone search result) —
@@ -219,7 +230,7 @@ class PlaybackService : MediaLibraryService() {
         }
 
         private suspend fun artUriFor(albumId: Long, representativeMediaStoreId: Long): Uri? =
-            artworkRepository.getArtFile(albumId, representativeMediaStoreId)?.let(Uri::fromFile)
+            artworkRepository.getArtFile(albumId, representativeMediaStoreId)?.let(artworkRepository::contentUriFor)
 
         private suspend fun artMapFor(songs: List<Song>): Map<Long, Uri?> =
             songs.distinctBy { it.albumId }.associate { it.albumId to artUriFor(it.albumId, it.mediaStoreId) }

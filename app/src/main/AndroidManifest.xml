@@ -43,6 +43,19 @@
             </intent-filter>
         </activity>
 
+        <!-- Exposes cached album-art files as content:// Uris so out-of-process clients (Android
+             Auto's host app, the lock screen) can load them — a plain file:// Uri into this app's
+             private storage isn't readable outside this process. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.artprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/art_file_paths" />
+        </provider>
+
         <service
             android:name=".playback.PlaybackService"
             android:exported="true"

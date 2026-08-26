@@ -2,7 +2,6 @@ package au.com.inoaspect.lyd.audio.playback
 
 import android.content.ComponentName
 import android.content.Context
-import android.net.Uri
 import androidx.core.content.ContextCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
@@ -206,11 +205,11 @@ class PlayerController @Inject constructor(
         val artByAlbum = songs.distinctBy { it.albumId }.associate { song ->
             song.albumId to artworkRepository.getArtFile(song.albumId, song.mediaStoreId)
         }
-        return songs.map { song -> song.toMediaItem(artByAlbum[song.albumId]?.let(Uri::fromFile)) }
+        return songs.map { song -> song.toMediaItem(artByAlbum[song.albumId]?.let(artworkRepository::contentUriFor)) }
     }
 
     private suspend fun buildMediaItem(song: Song): MediaItem {
         val art = artworkRepository.getArtFile(song.albumId, song.mediaStoreId)
-        return song.toMediaItem(art?.let(Uri::fromFile))
+        return song.toMediaItem(art?.let(artworkRepository::contentUriFor))
     }
 }

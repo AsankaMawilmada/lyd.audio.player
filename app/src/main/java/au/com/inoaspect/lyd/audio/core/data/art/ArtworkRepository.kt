@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Size
+import androidx.core.content.FileProvider
 import au.com.inoaspect.lyd.audio.core.data.db.ArtCacheDao
 import au.com.inoaspect.lyd.audio.core.data.db.ArtCacheEntity
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -52,6 +53,14 @@ class ArtworkRepository @Inject constructor(
             artCacheDao.upsert(ArtCacheEntity(albumId, file.absolutePath, hasArt = true))
             file
         }
+
+    /**
+     * A `content://` Uri for [file] (which must live under [cacheDir]), readable by out-of-process
+     * clients like Android Auto's host app or the lock screen — unlike a plain `file://` Uri into
+     * this app's private storage, which they have no access to.
+     */
+    fun contentUriFor(file: File): Uri =
+        FileProvider.getUriForFile(context, "${context.packageName}.artprovider", file)
 
     private fun fetchBitmap(albumId: Long, representativeSongMediaStoreId: Long): Bitmap? = try {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
